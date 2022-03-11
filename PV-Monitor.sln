@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PV_Monitor.Module", "PV_Monitor.Module\PV_Monitor.Module.csproj", "{36875C28-1D5F-42B5-A4BF-023C4AB3A28A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PV_Monitor.Module.Win", "PV_Monitor.Module.Win\PV_Monitor.Module.Win.csproj", "{CAE07093-B8E7-4A15-9725-A69CE103877F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PV_Monitor.Win", "PV_Monitor.Win\PV_Monitor.Win.csproj", "{6D1CCB37-3F7B-4276-B1A5-F357A4D5FDB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PV_Monitor.Module.Blazor", "PV_Monitor.Module.Blazor\PV_Monitor.Module.Blazor.csproj", "{EF5D7294-E591-4DAB-AAA6-D5A43CBEA875}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PV_Monitor.Blazor.Server", "PV_Monitor.Blazor.Server\PV_Monitor.Blazor.Server.csproj", "{F95B35BC-B196-43B9-A9A8-D780FF166F0E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		EasyTest|Any CPU = EasyTest|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36875C28-1D5F-42B5-A4BF-023C4AB3A28A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36875C28-1D5F-42B5-A4BF-023C4AB3A28A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36875C28-1D5F-42B5-A4BF-023C4AB3A28A}.EasyTest|Any CPU.ActiveCfg = EasyTest|Any CPU
+		{36875C28-1D5F-42B5-A4BF-023C4AB3A28A}.EasyTest|Any CPU.Build.0 = EasyTest|Any CPU
+		{36875C28-1D5F-42B5-A4BF-023C4AB3A28A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36875C28-1D5F-42B5-A4BF-023C4AB3A28A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAE07093-B8E7-4A15-9725-A69CE103877F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAE07093-B8E7-4A15-9725-A69CE103877F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAE07093-B8E7-4A15-9725-A69CE103877F}.EasyTest|Any CPU.ActiveCfg = EasyTest|Any CPU
+		{CAE07093-B8E7-4A15-9725-A69CE103877F}.EasyTest|Any CPU.Build.0 = EasyTest|Any CPU
+		{CAE07093-B8E7-4A15-9725-A69CE103877F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAE07093-B8E7-4A15-9725-A69CE103877F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D1CCB37-3F7B-4276-B1A5-F357A4D5FDB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D1CCB37-3F7B-4276-B1A5-F357A4D5FDB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D1CCB37-3F7B-4276-B1A5-F357A4D5FDB8}.EasyTest|Any CPU.ActiveCfg = EasyTest|Any CPU
+		{6D1CCB37-3F7B-4276-B1A5-F357A4D5FDB8}.EasyTest|Any CPU.Build.0 = EasyTest|Any CPU
+		{6D1CCB37-3F7B-4276-B1A5-F357A4D5FDB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D1CCB37-3F7B-4276-B1A5-F357A4D5FDB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF5D7294-E591-4DAB-AAA6-D5A43CBEA875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF5D7294-E591-4DAB-AAA6-D5A43CBEA875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF5D7294-E591-4DAB-AAA6-D5A43CBEA875}.EasyTest|Any CPU.ActiveCfg = EasyTest|Any CPU
+		{EF5D7294-E591-4DAB-AAA6-D5A43CBEA875}.EasyTest|Any CPU.Build.0 = EasyTest|Any CPU
+		{EF5D7294-E591-4DAB-AAA6-D5A43CBEA875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF5D7294-E591-4DAB-AAA6-D5A43CBEA875}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F95B35BC-B196-43B9-A9A8-D780FF166F0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F95B35BC-B196-43B9-A9A8-D780FF166F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F95B35BC-B196-43B9-A9A8-D780FF166F0E}.EasyTest|Any CPU.ActiveCfg = EasyTest|Any CPU
+		{F95B35BC-B196-43B9-A9A8-D780FF166F0E}.EasyTest|Any CPU.Build.0 = EasyTest|Any CPU
+		{F95B35BC-B196-43B9-A9A8-D780FF166F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F95B35BC-B196-43B9-A9A8-D780FF166F0E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3713FEE0-B32F-43F9-9DC9-EEA7B268403B}
+	EndGlobalSection
+EndGlobal

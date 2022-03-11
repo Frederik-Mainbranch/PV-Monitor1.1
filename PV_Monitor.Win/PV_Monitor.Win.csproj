@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>ExpressApp.ico</ApplicationIcon>
+    <Deterministic>false</Deterministic>
+    <AssemblyVersion>1.0.*</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Configurations>Debug;Release;EasyTest</Configurations>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Model.xafml" />
+    <None Remove="Images\Logo.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model.xafml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\Logo.svg" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)' == 'EasyTest' ">
+    <PackageReference Include="DevExpress.ExpressApp.EasyTest.WinAdapter" Version="21.2.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Chart.Win" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Chart.Win.de" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Dashboards.Win" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Dashboards.Win.de" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.de" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Win" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Win.de" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Office.Win" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Office.Win.de" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation.Win" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation.Win.de" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Win" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Win.de" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Xpo" Version="21.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Xpo.de" Version="21.2.3" />
+    <PackageReference Include="DevExpress.Persistent.Base" Version="21.2.3" />
+    <PackageReference Include="DevExpress.Persistent.Base.de" Version="21.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo.de" Version="21.2.3" />
+    <PackageReference Include="DevExpress.RichEdit.Export" Version="21.2.3" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.3" />
+    <PackageReference Include="MySql.Data" Version="8.0.28" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PV_Monitor.Module.Win\PV_Monitor.Module.Win.csproj">
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PV_Monitor.Module\PV_Monitor.Module.csproj">
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
