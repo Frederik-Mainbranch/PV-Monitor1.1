@@ -19,12 +19,24 @@ namespace PV_Monitor.Win {
     public partial class PV_MonitorWindowsFormsApplication : WinApplication {
         public PV_MonitorWindowsFormsApplication() {
 			InitializeComponent();
-            SetMySqlConnectionstring();
+            try
+            {
+                SetMySqlConnectionstring();
+            }
+            catch (Exception e)
+            {
+
+            }
             SplashScreen = new DXSplashScreen(typeof(XafSplashScreen), new DefaultOverlayFormOptions());
         }
 
         private void SetMySqlConnectionstring()
         {
+            if (App_helper.IstRootApplication == false)
+            {
+                return;
+            }
+
             string connectionstring = Multi_helper.Besorge_ZeileAusConfig(Path.Combine(AppContext.BaseDirectory, Assembly.GetExecutingAssembly().GetName().Name + ".dll.config"), "\"ConnectionString-mysql\"");
             if (string.IsNullOrEmpty(connectionstring) == false)
             {
