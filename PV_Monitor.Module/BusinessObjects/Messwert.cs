@@ -43,5 +43,17 @@ namespace PV_Monitor.Module.BusinessObjects
             get { return _Watt; }
             set { SetPropertyValue<double>(nameof(Watt), ref _Watt, value); }
         }
+
+
+        private PV_Modul _PV_Modul;
+        [XafDisplayName("PV Modul")]
+        [DevExpress.Xpo.Aggregated, Association("Messwert-PV_Modul")]
+        public PV_Modul PV_Modul
+        {
+            get { return _PV_Modul; }
+            set { SetPropertyValue<PV_Modul>(nameof(PV_Modul), ref _PV_Modul, value); }
+        }
+
+
     }
 }

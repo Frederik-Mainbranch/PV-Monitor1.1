@@ -12,6 +12,7 @@ using System.IO;
 using PV_Monitor.Module.Helper;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using MySql.Data.MySqlClient;
 //using DevExpress.DataAccess.Native.Json;
 
 namespace PV_Monitor.Win {
@@ -25,7 +26,10 @@ namespace PV_Monitor.Win {
             }
             catch (Exception e)
             {
-
+                if (App_helper.IstRootApplication)
+                {
+                    Multi_helper.Zeige_Messagebox("Fehler beim auslesen des MySql Connectionstring. Stacktrace:\r\n" + e);
+                }
             }
             SplashScreen = new DXSplashScreen(typeof(XafSplashScreen), new DefaultOverlayFormOptions());
         }
@@ -37,10 +41,14 @@ namespace PV_Monitor.Win {
                 return;
             }
 
-            string connectionstring = Multi_helper.Besorge_ZeileAusConfig(Path.Combine(AppContext.BaseDirectory, Assembly.GetExecutingAssembly().GetName().Name + ".dll.config"), "\"ConnectionString-mysql\"");
-            if (string.IsNullOrEmpty(connectionstring) == false)
+            string connectionstring = Multi_helper.Besorge_ZeileAusConfig(App_helper.Einstellungspfad, "\"ConnectionString-mysql\"");
+            if (string.IsNullOrEmpty(connectionstring) == false) //Erstellen und testen der Verbindung zum Mysql Server
             {
                 App_helper.MySQL_Connectionstring = connectionstring;
+                MySqlConnection connection = new MySqlConnection(connectionstring);
+                Sql_helper.Connection = connection;
+                connection.Open();
+                connection.Close();
             }
             else
             {

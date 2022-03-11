@@ -1,6 +1,7 @@
 ﻿using DevExpress.ExpressApp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,5 +15,14 @@ namespace PV_Monitor.Module.Helper
         public static string MySQL_Connectionstring { get; set; }
         public static bool IstRootApplication { get; set; }
         public static bool IstEntwicklungsModus { get; set; } = true;
+        public static string Einstellungspfad { get; set; }
+
+        public static void Schreibe_sqlLiteConnectionstring()
+        {
+            if (IstRootApplication)
+            {
+
+            }
+        }
     }
 }

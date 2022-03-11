@@ -1,8 +1,29 @@
-﻿<?xml version="1.0" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Application Title="PV-Monitor">
+  <BOModel>
+    <Class Name="PV_Monitor.Module.BusinessObjects._np.Messagebox_np">
+      <OwnMembers>
+        <Member Name="Text" AllowEdit="False" />
+      </OwnMembers>
+    </Class>
+  </BOModel>
   <Options>
     <LayoutManagerOptions RequiredFieldMark="*" />
   </Options>
+  <SchemaModules>
+    <SchemaModule Name="SystemModule" Version="21.2.3.0" IsNewNode="True" />
+  </SchemaModules>
   <Views>
+    <DetailView Id="Messagebox_np_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="100">
+            <LayoutGroup Id="Messagebox_np" RelativeSize="100">
+              <LayoutItem Id="Text" ShowCaption="False" RelativeSize="100" />
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
   </Views>
 </Application>

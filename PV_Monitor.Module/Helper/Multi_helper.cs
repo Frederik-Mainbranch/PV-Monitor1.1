@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using DevExpress.ExpressApp;
+using PV_Monitor.Module.BusinessObjects._np;
 
 namespace PV_Monitor.Module.Helper
 {
@@ -30,6 +32,18 @@ namespace PV_Monitor.Module.Helper
             }
 
             return null;
+        }
+
+        public static void Zeige_Messagebox(string text)
+        {
+            XafApplication app = App_helper.App;
+            IObjectSpace os = app.CreateObjectSpace(typeof(Messagebox_np));
+            Messagebox_np messagebox = new Messagebox_np();
+            messagebox.Text = text;
+
+            DetailView view = app.CreateDetailView(os, messagebox);
+
+            app.ShowViewStrategy.ShowViewInPopupWindow(view);
         }
     }
 }

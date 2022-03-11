@@ -18,7 +18,8 @@ namespace PV_Monitor.Win {
         /// </summary>
         [STAThread]
         static void Main() {
-            if (File.Exists(Path.Combine(AppContext.BaseDirectory, "PV_Monitor.Win.dll.config")) == true)
+            App_helper.Einstellungspfad = Path.Combine(AppContext.BaseDirectory, "PV_Monitor.Win.dll.config");
+            if (File.Exists(App_helper.Einstellungspfad) == true)
             {
                 App_helper.IstRootApplication = true;
             }

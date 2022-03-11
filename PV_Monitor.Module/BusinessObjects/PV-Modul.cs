@@ -6,6 +6,7 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
+using PV_Monitor.Module.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +35,7 @@ namespace PV_Monitor.Module.BusinessObjects
             {
                 if (propertyName == nameof(DatenbankID))
                 {
-                    //Messagebox.Show
+                    Multi_helper.Zeige_Messagebox("Das Eintragen einer falschen Datenbank ID kann zu kritischen Fehlern führen. Bitte vergewissern Sie sich, dass die ID korrekt ist vor dem speichern!");
                 }
             }
         }
@@ -57,7 +58,7 @@ namespace PV_Monitor.Module.BusinessObjects
         }
 
 
-        [DevExpress.Xpo.Aggregated, Association]
+        [DevExpress.Xpo.Aggregated, Association("Messwert-PV_Modul")]
         [XafDisplayName("Messwerte")]
         public XPCollection<Messwert> Messwert_Liste
         {
