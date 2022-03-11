@@ -16,9 +16,9 @@ namespace PV_Monitor.Module.Helper
             return Environment.CurrentDirectory;
         }
 
-        public static string Besorge_ZeileAusConfig(string speicherort, string objectvalueToSearchFor)
+        public static string Besorge_ZeileAusConfig(string objectvalueToSearchFor)
         {
-            string[] file = File.ReadAllLines(speicherort);
+            string[] file = File.ReadAllLines(App_helper.Einstellungspfad);
             foreach (string zeile in file)
             {
                 if (zeile.Contains(objectvalueToSearchFor))
@@ -36,14 +36,21 @@ namespace PV_Monitor.Module.Helper
 
         public static void Zeige_Messagebox(string text)
         {
-            XafApplication app = App_helper.App;
-            IObjectSpace os = app.CreateObjectSpace(typeof(Messagebox_np));
-            Messagebox_np messagebox = new Messagebox_np();
-            messagebox.Text = text;
+            if (App_helper.Status_App_istInitialisiert)
+            {
+                XafApplication app = App_helper.App;
+                IObjectSpace os = app.CreateObjectSpace(typeof(Messagebox_np));
+                Messagebox_np messagebox = new Messagebox_np();
+                messagebox.Text = text;
 
-            DetailView view = app.CreateDetailView(os, messagebox);
+                DetailView view = app.CreateDetailView(os, messagebox);
 
-            app.ShowViewStrategy.ShowViewInPopupWindow(view);
+                app.ShowViewStrategy.ShowViewInPopupWindow(view);
+            }
+            else
+            {
+                App_helper.Zeige_Notfallmitteilung(text);
+            }
         }
     }
 }

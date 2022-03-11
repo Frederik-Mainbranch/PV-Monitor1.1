@@ -20,6 +20,7 @@ namespace PV_Monitor.Win {
     public partial class PV_MonitorWindowsFormsApplication : WinApplication {
         public PV_MonitorWindowsFormsApplication() {
 			InitializeComponent();
+            App_helper.Status_App_istInitialisiert = true;
             try
             {
                 SetMySqlConnectionstring();
@@ -41,7 +42,7 @@ namespace PV_Monitor.Win {
                 return;
             }
 
-            string connectionstring = Multi_helper.Besorge_ZeileAusConfig(App_helper.Einstellungspfad, "\"ConnectionString-mysql\"");
+            string connectionstring = Multi_helper.Besorge_ZeileAusConfig("\"ConnectionString-mysql\"");
             if (string.IsNullOrEmpty(connectionstring) == false) //Erstellen und testen der Verbindung zum Mysql Server
             {
                 App_helper.MySQL_Connectionstring = connectionstring;

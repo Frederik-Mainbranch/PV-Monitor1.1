@@ -18,11 +18,8 @@ namespace PV_Monitor.Win {
         /// </summary>
         [STAThread]
         static void Main() {
-            App_helper.Einstellungspfad = Path.Combine(AppContext.BaseDirectory, "PV_Monitor.Win.dll.config");
-            if (File.Exists(App_helper.Einstellungspfad) == true)
-            {
-                App_helper.IstRootApplication = true;
-            }
+            App_helper.Initialisiere_Anwendung();
+
 
             DevExpress.ExpressApp.FrameworkSettings.DefaultSettingsCompatibilityMode = DevExpress.ExpressApp.FrameworkSettingsCompatibilityMode.Latest;
 #if EASYTEST
