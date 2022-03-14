@@ -6,12 +6,12 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
-using PV_Monitor.Module.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using PV_Monitor.Module.Helper;
 
 namespace PV_Monitor.Module.BusinessObjects
 {
@@ -35,7 +35,7 @@ namespace PV_Monitor.Module.BusinessObjects
             {
                 if (propertyName == nameof(DatenbankID))
                 {
-                    Multi_helper.Zeige_Messagebox("Das Eintragen einer falschen Datenbank ID kann zu kritischen Fehlern führen. Bitte vergewissern Sie sich, dass die ID korrekt ist vor dem speichern!");
+                    Agnostic_Caller_Helper.ZeigeMessageBox("Das Eintragen einer falschen Datenbank ID kann zu kritischen Fehlern führen. Bitte vergewissern Sie sich, dass die ID korrekt ist vor dem speichern!");
                 }
             }
         }

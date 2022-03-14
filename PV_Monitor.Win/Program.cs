@@ -9,7 +9,7 @@ using DevExpress.ExpressApp.Win;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.XtraEditors;
-using PV_Monitor.Module.Helper;
+using PV_Monitor.Module.Win.Helper;
 
 namespace PV_Monitor.Win {
     static class Program {

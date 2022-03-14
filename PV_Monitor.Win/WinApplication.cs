@@ -9,7 +9,7 @@ using DevExpress.ExpressApp.Xpo;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 using System.IO;
-using PV_Monitor.Module.Helper;
+using PV_Monitor.Module.Win.Helper;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using MySql.Data.MySqlClient;
@@ -27,10 +27,7 @@ namespace PV_Monitor.Win {
             }
             catch (Exception e)
             {
-                if (App_helper.IstRootApplication)
-                {
-                    Multi_helper.Zeige_Messagebox("Fehler beim auslesen des MySql Connectionstring. Stacktrace:\r\n" + e);
-                }
+                MessageBox.Show("Fehler beim auslesen des MySql Connectionstring. Stacktrace:\r\n" + e);
             }
             SplashScreen = new DXSplashScreen(typeof(XafSplashScreen), new DefaultOverlayFormOptions());
         }

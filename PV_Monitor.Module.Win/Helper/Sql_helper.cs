@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PV_Monitor.Module.Helper
+namespace PV_Monitor.Module.Win.Helper
 {
     public static class Sql_helper
     {
