@@ -13,6 +13,7 @@ using PV_Monitor.Module.Win.Helper;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using MySql.Data.MySqlClient;
+using PV_Monitor.Module.Helper;
 //using DevExpress.DataAccess.Native.Json;
 
 namespace PV_Monitor.Win {
@@ -20,7 +21,7 @@ namespace PV_Monitor.Win {
     public partial class PV_MonitorWindowsFormsApplication : WinApplication {
         public PV_MonitorWindowsFormsApplication() {
 			InitializeComponent();
-            App_helper.Status_App_istInitialisiert = true;
+            WinApp_helper.Status_App_istInitialisiert = true;
             try
             {
                 SetMySqlConnectionstring();
@@ -34,7 +35,7 @@ namespace PV_Monitor.Win {
 
         private void SetMySqlConnectionstring()
         {
-            if (App_helper.IstRootApplication == false)
+            if (WinApp_helper.IstRootApplication == false)
             {
                 return;
             }
@@ -42,7 +43,7 @@ namespace PV_Monitor.Win {
             string connectionstring = Multi_helper.Besorge_ZeileAusConfig("\"ConnectionString-mysql\"");
             if (string.IsNullOrEmpty(connectionstring) == false) //Erstellen und testen der Verbindung zum Mysql Server
             {
-                App_helper.MySQL_Connectionstring = connectionstring;
+                WinApp_helper.MySQL_Connectionstring = connectionstring;
                 MySqlConnection connection = new MySqlConnection(connectionstring);
                 Sql_helper.Connection = connection;
                 connection.Open();
@@ -54,6 +55,11 @@ namespace PV_Monitor.Win {
             }
         }
 
+        protected override void OnLoggedOn(LogonEventArgs args)
+        {
+            base.OnLoggedOn(args);
+            App_helper.IstEingeloggt = true;
+        }
 
         protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args) {
             args.ObjectSpaceProviders.Add(new XPObjectSpaceProvider(XPObjectSpaceProvider.GetDataStoreProvider(args.ConnectionString, args.Connection, true), false));

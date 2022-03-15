@@ -33,7 +33,7 @@ namespace PV_Monitor.Module.BusinessObjects
             base.OnChanged(propertyName, oldValue, newValue);
             if (!IsLoading && !IsSaving)
             {
-                if (propertyName == nameof(DatenbankID))
+                if (propertyName == nameof(DatenbankID) && App_helper.IstEingeloggt)
                 {
                     Agnostic_Caller_Helper.ZeigeMessageBox("Das Eintragen einer falschen Datenbank ID kann zu kritischen Fehlern führen. Bitte vergewissern Sie sich, dass die ID korrekt ist vor dem speichern!");
                 }

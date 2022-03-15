@@ -13,13 +13,13 @@ using System.Configuration;
 
 namespace PV_Monitor.Module.Win.Helper
 {
-    public static class App_helper
+    public static class WinApp_helper
     {
         public static XafApplication App { get; set; }
         public static bool Status_App_istInitialisiert { get; set; }
         public static string MySQL_Connectionstring { get; set; }
         public static bool IstRootApplication { get; set; }
-        public static bool IstEntwicklungsModus { get; set; } = true;
+        //public static bool IstEntwicklungsModus { get; set; } = true;
         public static string Einstellungspfad { get; set; }
 
 

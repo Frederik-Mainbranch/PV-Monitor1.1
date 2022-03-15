@@ -6,6 +6,11 @@
         <Member Name="Text" AllowEdit="False" />
       </OwnMembers>
     </Class>
+    <Class Name="PV_Monitor.Module.BusinessObjects._np.MesswertImport_np">
+      <OwnMembers>
+        <Member Name="Intervall" DisplayFormat="" Caption="Intervall (Tag, Stunde, Minute, Sekunde)" />
+      </OwnMembers>
+    </Class>
   </BOModel>
   <Options>
     <LayoutManagerOptions RequiredFieldMark="*" />
@@ -23,6 +28,23 @@
             </LayoutGroup>
           </LayoutGroup>
         </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="PV_Modul_DetailView">
+      <Items>
+        <PropertyEditor Id="Messwert_Liste" PropertyName="Messwert_Liste" View="PV_Modul_Messwert_Liste_ListView" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="13.374805598755833">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="100">
+            <LayoutGroup Id="PV_Modul" RelativeSize="100">
+              <LayoutItem Id="Beschreibung" RelativeSize="37.2093023255814" />
+              <LayoutItem Id="DatenbankID" RelativeSize="27.906976744186046" />
+              <LayoutItem Id="DatumInbetriebnahme" RelativeSize="34.883720930232556" />
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+        <LayoutItem Id="Messwert_Liste" ViewItem="Messwert_Liste" Index="1" RelativeSize="86.62519440124417" IsNewNode="True" />
       </Layout>
     </DetailView>
   </Views>

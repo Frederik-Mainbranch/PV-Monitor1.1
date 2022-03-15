@@ -15,25 +15,33 @@ namespace PV_Monitor.Module.BusinessObjects._np
 {
     [DomainComponent]
     [DefaultClassOptions]
-    [XafDisplayName("Mitteilung")]
+    [XafDisplayName("Importiere Messwerte")]
     [NavigationItem(false)]
 
-    public class Messagebox_np : IXafEntityObject/*, IObjectSpaceLink*/, INotifyPropertyChanged
+    public class MesswertImport_np : IXafEntityObject/*, IObjectSpaceLink*/, INotifyPropertyChanged
     {
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public Messagebox_np()
+        public MesswertImport_np()
         {
             Oid = Guid.NewGuid();
         }
 
         [DevExpress.ExpressApp.Data.Key]
-        [Browsable(false)]  // Hide the entity identifier from UI.
+        [Browsable(false)]
         public Guid Oid { get; set; }
 
-        public string Text { get; set; }
+        public DateTime Von { get; set; }
+        public DateTime Bis { get; set; }
+        public TimeSpan Intervall { get; set; }
+
+
+
+
+
+
 
         #region IXafEntityObject members (see https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppIXafEntityObjecttopic.aspx)
         void IXafEntityObject.OnCreated()

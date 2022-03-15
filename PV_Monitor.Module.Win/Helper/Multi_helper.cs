@@ -19,9 +19,9 @@ namespace PV_Monitor.Module.Win.Helper
 
         public static string Besorge_ZeileAusConfig(string objectvalueToSearchFor)
         {
-            if (File.Exists(App_helper.Einstellungspfad))
+            if (File.Exists(WinApp_helper.Einstellungspfad))
             {
-                string[] file = File.ReadAllLines(App_helper.Einstellungspfad);
+                string[] file = File.ReadAllLines(WinApp_helper.Einstellungspfad);
                 foreach (string zeile in file)
                 {
                     if (zeile.Contains(objectvalueToSearchFor))

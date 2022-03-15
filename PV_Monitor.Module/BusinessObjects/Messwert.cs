@@ -30,12 +30,29 @@ namespace PV_Monitor.Module.BusinessObjects
         }
 
         private DateTime _Uhrzeit;
+        [XafDisplayName("Uhrzeit von")]
         public DateTime Uhrzeit
         {
             get { return _Uhrzeit; }
             set { SetPropertyValue<DateTime>(nameof(Uhrzeit), ref _Uhrzeit, value); }
         }
 
+
+        private DateTime _UhrzeitBis;
+        [XafDisplayName("Uhrzeit bis")]
+        public DateTime UhrzeitBis
+        {
+            get { return _UhrzeitBis; }
+            set { SetPropertyValue<DateTime>(nameof(UhrzeitBis), ref _UhrzeitBis, value); }
+        }
+
+
+        private TimeSpan _Intervall;
+        public TimeSpan Intervall
+        {
+            get { return _Intervall; }
+            set { SetPropertyValue<TimeSpan>(nameof(Intervall), ref _Intervall, value); }
+        }
 
         private double _Watt;
         public double Watt
