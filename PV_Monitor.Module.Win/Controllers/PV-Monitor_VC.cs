@@ -74,13 +74,13 @@ namespace PV_Monitor.Module.Win.Controllers
             {
                 while ((dateTime_runner + intervall) <= enddatum) //volles Intervall
                 {
-                    if(importiere_Intervall(modul, dateTime_runner, enddatum, intervall) == false )
+                    if(importiere_Intervall(modul, ref dateTime_runner, enddatum, intervall) == false )
                     {
                         return;
                     }
                 }
 
-                if (importiere_Intervall(modul, dateTime_runner, enddatum, enddatum - dateTime_runner) == false) //restliches Intervall
+                if (importiere_Intervall(modul, ref dateTime_runner, enddatum, enddatum - dateTime_runner) == false) //restliches Intervall
                 {
                     return;
                 }
@@ -91,9 +91,9 @@ namespace PV_Monitor.Module.Win.Controllers
                 ObjectSpace.CommitChanges();
             }
 
-            bool importiere_Intervall(PV_Modul modul, DateTime dateTime_runner, DateTime enddatum, TimeSpan intervall)
+            bool importiere_Intervall(PV_Modul modul, ref DateTime dateTime_runner, DateTime enddatum, TimeSpan intervall)
             {
-                string query = $"select val from ts_number where id = {modul.DatenbankID} and ts >= {Sql_helper.KonvertiereZu_mysqlDatetime(dateTime_runner)} and ts <= {Sql_helper.KonvertiereZu_mysqlDatetime(enddatum)} and q = 0";
+                string query = $"select sum(val) from ts_number where id = {modul.DatenbankID} and ts >= {Sql_helper.KonvertiereZu_mysqlDatetime(dateTime_runner)} and ts <= {Sql_helper.KonvertiereZu_mysqlDatetime(enddatum)} and q = 0";
                 int counter = 0;
                 double summe_watt = 0;
                 MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
@@ -105,6 +105,10 @@ namespace PV_Monitor.Module.Win.Controllers
                     {
                         counter++;
                         string line = mySqlDataReader.GetValue(0).ToString();
+                        if (string.IsNullOrEmpty(line))
+                        {
+                            break;
+                        }
                         double newvalue = 0;
                         if (double.TryParse(line, out newvalue) == true)
                         {
@@ -130,7 +134,7 @@ namespace PV_Monitor.Module.Win.Controllers
                 Messwert messwert = ObjectSpace.CreateObject<Messwert>();
                 messwert.Uhrzeit = dateTime_runner;
                 messwert.UhrzeitBis = dateTime_runner + intervall;
-                messwert.Intervall = intervall;
+                messwert.Intervall = intervall;  
                 messwert.PV_Modul = modul;
                 messwert.Watt = Math.Round((summe_watt / counter), 1);
 

@@ -16,6 +16,7 @@ using PV_Monitor.Module.Helper;
 namespace PV_Monitor.Module.BusinessObjects
 {
     [DefaultClassOptions]
+    [DefaultProperty(nameof(Beschreibung))]
 
     public class PV_Modul : BaseObject
     { 

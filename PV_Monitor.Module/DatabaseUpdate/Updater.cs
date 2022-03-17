@@ -19,6 +19,7 @@ namespace PV_Monitor.Module.DatabaseUpdate {
         public override void UpdateDatabaseAfterUpdateSchema() {
             base.UpdateDatabaseAfterUpdateSchema();
 
+            #region -- PV-Modul ---------------------------------------------------------------
             if (App_helper.IstEntwicklungsmodus)
             {
                 PV_Modul pv_l1 = ObjectSpace.FirstOrDefault<PV_Modul>(u => u.DatenbankID == 94);
@@ -48,6 +49,70 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                     ObjectSpace.CommitChanges();
                 }
             }
+            #endregion PV-Modul
+
+            #region -- Autoimport Einstellung -----------------------------------------------------
+            AutoimportEinstellung autoimport_jaehrlich = ObjectSpace.FirstOrDefault<AutoimportEinstellung>(u => u.Enum_AutoimportX == Enum_Autoimport.Jaehrlich);
+            if (autoimport_jaehrlich == null)
+            {
+                autoimport_jaehrlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
+                autoimport_jaehrlich.Beschreibung = "jährlich";
+                autoimport_jaehrlich.ImportiereBeiProgrammstart = false;
+                autoimport_jaehrlich.ImportiereManuell = false;
+                autoimport_jaehrlich.Enum_AutoimportX = Enum_Autoimport.Jaehrlich;
+            }
+
+            AutoimportEinstellung autoimport_monatlich = ObjectSpace.FirstOrDefault<AutoimportEinstellung>(u => u.Enum_AutoimportX == Enum_Autoimport.Monatlich);
+            if (autoimport_monatlich == null)
+            {
+                autoimport_monatlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
+                autoimport_monatlich.Beschreibung = "monatlich";
+                autoimport_monatlich.ImportiereBeiProgrammstart = false;
+                autoimport_monatlich.ImportiereManuell = false;
+                autoimport_monatlich.Enum_AutoimportX = Enum_Autoimport.Monatlich;
+            }
+
+            AutoimportEinstellung autoimport_woechentlich = ObjectSpace.FirstOrDefault<AutoimportEinstellung>(u => u.Enum_AutoimportX == Enum_Autoimport.Woechentlich);
+            if (autoimport_woechentlich == null)
+            {
+                autoimport_woechentlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
+                autoimport_woechentlich.Beschreibung = "wöchentlich";
+                autoimport_woechentlich.ImportiereBeiProgrammstart = false;
+                autoimport_woechentlich.ImportiereManuell = false;
+                autoimport_woechentlich.Enum_AutoimportX = Enum_Autoimport.Woechentlich;
+            }
+
+            AutoimportEinstellung autoimport_taeglich = ObjectSpace.FirstOrDefault<AutoimportEinstellung>(u => u.Enum_AutoimportX == Enum_Autoimport.Taeglich);
+            if (autoimport_taeglich == null)
+            {
+                autoimport_taeglich = ObjectSpace.CreateObject<AutoimportEinstellung>();
+                autoimport_taeglich.Beschreibung = "täglich";
+                autoimport_taeglich.ImportiereBeiProgrammstart = false;
+                autoimport_taeglich.ImportiereManuell = false;
+                autoimport_taeglich.Enum_AutoimportX = Enum_Autoimport.Taeglich;
+            }
+
+            AutoimportEinstellung autoimport_stuendlich = ObjectSpace.FirstOrDefault<AutoimportEinstellung>(u => u.Enum_AutoimportX == Enum_Autoimport.Stuendlich);
+            if (autoimport_stuendlich == null)
+            {
+                autoimport_stuendlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
+                autoimport_stuendlich.Beschreibung = "stündlich";
+                autoimport_stuendlich.ImportiereBeiProgrammstart = false;
+                autoimport_stuendlich.ImportiereManuell = false;
+                autoimport_stuendlich.Enum_AutoimportX = Enum_Autoimport.Stuendlich;
+            }
+
+            AutoimportEinstellung autoimport_minuetlich = ObjectSpace.FirstOrDefault<AutoimportEinstellung>(u => u.Enum_AutoimportX == Enum_Autoimport.Minuetlich);
+            if (autoimport_minuetlich == null)
+            {
+                autoimport_minuetlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
+                autoimport_minuetlich.Beschreibung = "minütlich";
+                autoimport_minuetlich.ImportiereBeiProgrammstart = false;
+                autoimport_minuetlich.ImportiereManuell = false;
+                autoimport_minuetlich.Enum_AutoimportX = Enum_Autoimport.Minuetlich;
+            }
+
+            #endregion --Autoimport Einstellung
 
             //string name = "MyName";
             //DomainObject1 theObject = ObjectSpace.FirstOrDefault<DomainObject1>(u => u.Name == name);
