@@ -10,6 +10,7 @@ using DevExpress.Xpo.DB;
 using PV_Monitor.Module.Helper;
 using System.Windows.Forms;
 using System.Configuration;
+using PV_Monitor.Module.BusinessObjects;
 
 namespace PV_Monitor.Module.Win.Helper
 {
@@ -144,6 +145,19 @@ namespace PV_Monitor.Module.Win.Helper
         private static void Agnostic_Caller_Helper_messageEvent(object sender, NotfallMitteilungEventArgs e)
         {
             MessageBox.Show(e.mitteilung);
+        }
+
+        public static void Erstelle_Fehlermeldung(string beschreibung, Enum_FehlerSchweregrad schweregrad, Enum_Fehlergruppe fehlergruppe)
+        {
+            IObjectSpace obj_space = App.CreateObjectSpace(typeof(Fehlerprotokoll));
+            Fehlerprotokoll fehlerprotokoll = obj_space.CreateObject<Fehlerprotokoll>();
+            fehlerprotokoll.Beschreibung = beschreibung;
+            fehlerprotokoll.Schweregrad = schweregrad;
+            fehlerprotokoll.Fehlergruppe = fehlergruppe;
+            obj_space.CommitChanges();
+            obj_space.Dispose();
+
+            MessageBox.Show(beschreibung);
         }
     }
 }

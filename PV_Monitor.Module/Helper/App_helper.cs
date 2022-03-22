@@ -10,6 +10,6 @@ namespace PV_Monitor.Module.Helper
     {
         public static bool IstEntwicklungsmodus { get; set; } = true;
         public static bool IstEingeloggt { get; set; }
-
+        public static bool WarnmeldungDatenbankIDWurdeGezeigt { get; set; }
     }
 }

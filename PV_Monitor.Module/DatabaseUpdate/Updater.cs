@@ -22,31 +22,26 @@ namespace PV_Monitor.Module.DatabaseUpdate {
             #region -- PV-Modul ---------------------------------------------------------------
             if (App_helper.IstEntwicklungsmodus)
             {
-                PV_Modul pv_l1 = ObjectSpace.FirstOrDefault<PV_Modul>(u => u.DatenbankID == 94);
+                PV_Modul pv_l1 = ObjectSpace.FirstOrDefault<PV_Modul>(u => u.DatenbankID_Leistung == 94);
                 if (pv_l1 == null)
                 {
                     pv_l1 = ObjectSpace.CreateObject<PV_Modul>();
                     pv_l1.Beschreibung = "L1";
-                    pv_l1.DatenbankID = 94;
+                    pv_l1.DatenbankID_Leistung = 94;
                 }
-                PV_Modul pv_l2 = ObjectSpace.FirstOrDefault<PV_Modul>(u => u.DatenbankID == 98);
+                PV_Modul pv_l2 = ObjectSpace.FirstOrDefault<PV_Modul>(u => u.DatenbankID_Leistung == 98);
                 if (pv_l2 == null)
                 {
                     pv_l2 = ObjectSpace.CreateObject<PV_Modul>();
                     pv_l2.Beschreibung = "L2";
-                    pv_l2.DatenbankID = 98;
+                    pv_l2.DatenbankID_Leistung = 98;
                 }
-                PV_Modul pv_l3 = ObjectSpace.FirstOrDefault<PV_Modul>(u => u.DatenbankID == 93);
+                PV_Modul pv_l3 = ObjectSpace.FirstOrDefault<PV_Modul>(u => u.DatenbankID_Leistung == 93);
                 if (pv_l3 == null)
                 {
                     pv_l3 = ObjectSpace.CreateObject<PV_Modul>();
                     pv_l3.Beschreibung = "L3";
-                    pv_l3.DatenbankID = 93;
-                }
-
-                if (ObjectSpace.IsModified)
-                {
-                    ObjectSpace.CommitChanges();
+                    pv_l3.DatenbankID_Leistung = 93;
                 }
             }
             #endregion PV-Modul
@@ -102,17 +97,22 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                 autoimport_stuendlich.Enum_AutoimportX = Enum_Autoimport.Stuendlich;
             }
 
-            AutoimportEinstellung autoimport_minuetlich = ObjectSpace.FirstOrDefault<AutoimportEinstellung>(u => u.Enum_AutoimportX == Enum_Autoimport.Minuetlich);
+            AutoimportEinstellung autoimport_minuetlich = ObjectSpace.FirstOrDefault<AutoimportEinstellung>(u => u.Enum_AutoimportX == Enum_Autoimport.Viertelstuendlich);
             if (autoimport_minuetlich == null)
             {
                 autoimport_minuetlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
-                autoimport_minuetlich.Beschreibung = "minütlich";
+                autoimport_minuetlich.Beschreibung = "viertelstündlich";
                 autoimport_minuetlich.ImportiereBeiProgrammstart = false;
                 autoimport_minuetlich.ImportiereManuell = false;
-                autoimport_minuetlich.Enum_AutoimportX = Enum_Autoimport.Minuetlich;
+                autoimport_minuetlich.Enum_AutoimportX = Enum_Autoimport.Viertelstuendlich;
             }
 
             #endregion --Autoimport Einstellung
+
+            if (ObjectSpace.IsModified)
+            {
+                ObjectSpace.CommitChanges();
+            }
 
             //string name = "MyName";
             //DomainObject1 theObject = ObjectSpace.FirstOrDefault<DomainObject1>(u => u.Name == name);

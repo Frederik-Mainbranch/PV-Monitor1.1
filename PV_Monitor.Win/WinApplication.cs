@@ -21,6 +21,7 @@ namespace PV_Monitor.Win {
     public partial class PV_MonitorWindowsFormsApplication : WinApplication {
         public PV_MonitorWindowsFormsApplication() {
 			InitializeComponent();
+            WinApp_helper.App = this;
             WinApp_helper.Status_App_istInitialisiert = true;
             try
             {

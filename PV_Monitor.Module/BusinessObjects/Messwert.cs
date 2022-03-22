@@ -29,32 +29,59 @@ namespace PV_Monitor.Module.BusinessObjects
             base.AfterConstruction();
         }
 
-        private DateTime _Uhrzeit;
-        [XafDisplayName("Uhrzeit von")]
-        public DateTime Uhrzeit
+        //private DateTime _Uhrzeit;
+        //[XafDisplayName("Uhrzeit von")]
+        //public DateTime Uhrzeit
+        //{
+        //    get { return _Uhrzeit; }
+        //    set { SetPropertyValue<DateTime>(nameof(Uhrzeit), ref _Uhrzeit, value); }
+        //}
+
+
+        private DateTime _DatumVon;
+        public DateTime DatumVon
         {
-            get { return _Uhrzeit; }
-            set { SetPropertyValue<DateTime>(nameof(Uhrzeit), ref _Uhrzeit, value); }
+            get { return _DatumVon; }
+            set { SetPropertyValue<DateTime>(nameof(DatumVon), ref _DatumVon, value); }
         }
 
 
-        private DateTime _UhrzeitBis;
-        [XafDisplayName("Uhrzeit bis")]
-        public DateTime UhrzeitBis
+        private DateTime _DatumBis;
+        public DateTime DatumBis
         {
-            get { return _UhrzeitBis; }
-            set { SetPropertyValue<DateTime>(nameof(UhrzeitBis), ref _UhrzeitBis, value); }
+            get { return _DatumBis; }
+            set { SetPropertyValue<DateTime>(nameof(DatumBis), ref _DatumBis, value); }
         }
 
 
-        private TimeSpan _Intervall;
-        public TimeSpan Intervall
+        private Enum_Autoimport _AutoimportX;
+        [XafDisplayName("Autoimport Typ")]
+        public Enum_Autoimport AutoimportX
         {
-            get { return _Intervall; }
-            set { SetPropertyValue<TimeSpan>(nameof(Intervall), ref _Intervall, value); }
+            get { return _AutoimportX; }
+            set { SetPropertyValue<Enum_Autoimport>(nameof(AutoimportX), ref _AutoimportX, value); }
         }
+
+
+
+        //private DateTime _UhrzeitBis;
+        //[XafDisplayName("Uhrzeit bis")]
+        //public DateTime UhrzeitBis
+        //{
+        //    get { return _UhrzeitBis; }
+        //    set { SetPropertyValue<DateTime>(nameof(UhrzeitBis), ref _UhrzeitBis, value); }
+        //}
+
+
+        //private TimeSpan _Intervall;
+        //public TimeSpan Intervall
+        //{
+        //    get { return _Intervall; }
+        //    set { SetPropertyValue<TimeSpan>(nameof(Intervall), ref _Intervall, value); }
+        //}
 
         private double _Watt;
+        [XafDisplayName("Max Watt")]
         public double Watt
         {
             get { return _Watt; }
@@ -62,14 +89,33 @@ namespace PV_Monitor.Module.BusinessObjects
         }
 
 
+        private double _ExportKwH;
+        [XafDisplayName("Exportierte kW/H")]
+        public double ExportKwH
+        {
+            get { return _ExportKwH; }
+            set { SetPropertyValue<double>(nameof(ExportKwH), ref _ExportKwH, value); }
+        }
+
+
         private PV_Modul _PV_Modul;
         [XafDisplayName("PV Modul")]
-        [DevExpress.Xpo.Aggregated, Association("Messwert-PV_Modul")]
+        [Association("Messwert-PV_Modul")]
         public PV_Modul PV_Modul
         {
             get { return _PV_Modul; }
             set { SetPropertyValue<PV_Modul>(nameof(PV_Modul), ref _PV_Modul, value); }
         }
+
+
+        private long _AnzahlMesswerteX;
+        [XafDisplayName("Anzahl Messwerte")]
+        public long AnzahlMesswerteX
+        {
+            get { return _AnzahlMesswerteX; }
+            set { SetPropertyValue<long>(nameof(AnzahlMesswerteX), ref _AnzahlMesswerteX, value); }
+        }
+
 
 
     }

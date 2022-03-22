@@ -8,4 +8,29 @@
     <SchemaModule Name="SystemModule" Version="21.2.3.0" IsNewNode="True" />
     <SchemaModule Name="SystemWindowsFormsModule" Version="21.2.3.0" IsNewNode="True" />
   </SchemaModules>
+  <Views>
+    <DetailView Id="PV_Modul_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="13.374805598755833">
+            <LayoutGroup Id="PV_Modul">
+              <LayoutItem Id="DatenbankID_Leistung" RelativeSize="27.906976744186046" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Messwert_Liste_Group" TextAlignMode="AlignWithChildren" Direction="Vertical" RelativeSize="86.62519440124417">
+            <LayoutItem Id="Messwert_Liste" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+        <LayoutItem Id="Messwert_Liste" Removed="True" />
+      </Layout>
+    </DetailView>
+    <ListView Id="PV_Modul_Messwert_Liste_ListView" ShowAutoFilterRow="True" IsFooterVisible="True">
+      <Columns>
+        <ColumnInfo Id="DatumVon" Width="72" SortIndex="1" SortOrder="Descending" />
+        <ColumnInfo Id="DatumBis" Width="67" />
+        <ColumnInfo Id="AutoimportX" Width="94" SortIndex="0" SortOrder="Descending" />
+        <ColumnInfo Id="Watt" Width="67" />
+      </Columns>
+    </ListView>
+  </Views>
 </Application>

@@ -76,12 +76,19 @@ namespace PV_Monitor.Module.BusinessObjects
 
     public enum Enum_Autoimport
     {
+        [XafDisplayName("manuell")]
         Manuell,
-        Minuetlich,
+        [XafDisplayName("viertelstündlich")]
+        Viertelstuendlich,
+        [XafDisplayName("stündlich")]
         Stuendlich,
+        [XafDisplayName("täglich")]
         Taeglich,
+        [XafDisplayName("wöchentlich")]
         Woechentlich,
+        [XafDisplayName("monatlich")]
         Monatlich,
+        [XafDisplayName("jährlich")]
         Jaehrlich
     }
 }
