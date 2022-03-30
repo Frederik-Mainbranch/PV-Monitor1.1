@@ -43,7 +43,7 @@ namespace PV_Monitor.Module.BusinessObjects
             base.OnChanged(propertyName, oldValue, newValue);
             if (!IsLoading && !IsSaving)
             {
-                if ((propertyName == nameof(DatenbankID_Leistung) || propertyName == nameof(DatenbankID_ExportKwh)) && App_helper.IstEingeloggt && App_helper.WarnmeldungDatenbankIDWurdeGezeigt == false)
+                if ((propertyName == nameof(DatenbankID_Leistung) || propertyName == nameof(DatenbankID_kWh)) && App_helper.IstEingeloggt && App_helper.WarnmeldungDatenbankIDWurdeGezeigt == false)
                 {
                     App_helper.WarnmeldungDatenbankIDWurdeGezeigt = true;
                     Agnostic_Caller_Helper.ZeigeMessageBox("Das Eintragen einer falschen Datenbank ID kann zu kritischen Fehlern führen. Bitte vergewissern Sie sich, dass die ID korrekt ist vor dem speichern!");
@@ -150,10 +150,10 @@ namespace PV_Monitor.Module.BusinessObjects
 
         private int _DatenbankID_ExportKwh;
         [XafDisplayName("Datenbank ID Export kW/H")]
-        public int DatenbankID_ExportKwh
+        public int DatenbankID_kWh
         {
             get { return _DatenbankID_ExportKwh; }
-            set { SetPropertyValue<int>(nameof(DatenbankID_ExportKwh), ref _DatenbankID_ExportKwh, value); }
+            set { SetPropertyValue<int>(nameof(DatenbankID_kWh), ref _DatenbankID_ExportKwh, value); }
         }
 
 

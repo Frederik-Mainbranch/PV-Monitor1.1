@@ -1,6 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Logo="ExpressAppLogo">
-  <NavigationItems NavigationStyle="Accordion" ShowImages="True" DefaultChildItemsDisplayStyle="List" StartupNavigationItem="Messwert_ListView" />
+<Application Logo="ExpressAppLogo" Company="Medienagentur Frederik Hartung" Copyright="2022" Description="Der Photovoltaik Monitor">
+  <ActionDesign>
+    <Actions>
+      <Action Id="SA_importiereMesswerte" ImageName="LowImportance" PaintStyle="CaptionAndImage" />
+      <Action Id="SA_setzteLetztesImportDatumZurueck" ImageName="Action_Cancel" PaintStyle="CaptionAndImage" />
+    </Actions>
+  </ActionDesign>
+  <BOModel>
+    <Class Name="PV_Monitor.Module.BusinessObjects.AutoimportEinstellung" ImageName="UpdateTableOfContents">
+      <OwnMembers>
+        <Member Name="Beschreibung" AllowEdit="False" />
+      </OwnMembers>
+    </Class>
+    <Class Name="PV_Monitor.Module.BusinessObjects.Einstellung" ImageName="ModelEditor_Settings">
+      <AppearanceRules>
+        <AppearanceRule Id="Verstecke_bool" TargetItems="Wert_bool" Criteria="[TypDerVariablen] &lt;&gt; ##Enum#PV_Monitor.Module.BusinessObjects.Einstellung+Enum_Einstellungstypen,_bool#" Visibility="Hide" IsNewNode="True" />
+        <AppearanceRule Id="Verstecke_double" Priority="0" TargetItems="Wert_double" Criteria="[TypDerVariablen] &lt;&gt; ##Enum#PV_Monitor.Module.BusinessObjects.Einstellung+Enum_Einstellungstypen,_double#" Visibility="Hide" IsNewNode="True" />
+        <AppearanceRule Id="Verstecke_int" TargetItems="Wert_int" Criteria="[TypDerVariablen] &lt;&gt; ##Enum#PV_Monitor.Module.BusinessObjects.Einstellung+Enum_Einstellungstypen,_int#" Visibility="Hide" IsNewNode="True" />
+        <AppearanceRule Id="Verstecke_string" Priority="0" TargetItems="Wert_string" Criteria="[TypDerVariablen] &lt;&gt; ##Enum#PV_Monitor.Module.BusinessObjects.Einstellung+Enum_Einstellungstypen,_string#" Visibility="Hide" IsNewNode="True" />
+      </AppearanceRules>
+      <OwnMembers>
+        <Member Name="Beschreibung" AllowEdit="False" RowCount="2" />
+        <Member Name="Name" AllowEdit="False" />
+      </OwnMembers>
+    </Class>
+    <Class Name="PV_Monitor.Module.BusinessObjects.Fehlerprotokoll" ImageName="BO_Attention">
+      <OwnMembers>
+        <Member Name="Beschreibung" AllowEdit="False" RowCount="10" />
+        <Member Name="Datum" AllowEdit="False" />
+        <Member Name="Fehlergruppe" AllowEdit="False" />
+        <Member Name="Schweregrad" AllowEdit="False" />
+      </OwnMembers>
+    </Class>
+    <Class Name="PV_Monitor.Module.BusinessObjects.Messwert" ImageName="BO_Scheduler">
+      <OwnMembers>
+        <Member Name="AnzahlMesswerteX" AllowEdit="False" />
+        <Member Name="AutoimportX" AllowEdit="False" />
+        <Member Name="DatumBis" DisplayFormat="{0:g}" MaskSettings="AwAAAA9NYXNrTWFuYWdlclR5cGUAgwFEZXZFeHByZXNzLkRhdGEuTWFzay5EYXRlVGltZU1hc2tNYW5hZ2VyLCBEZXZFeHByZXNzLkRhdGEudjIxLjIsIFZlcnNpb249MjEuMi4zLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjg4ZDE3NTRkNzAwZTQ5YRRNYXNrTWFuYWdlclNpZ25hdHVyZQcCD2FsbG93TnVsbD1GYWxzZQRtYXNrBwIBZw==" AllowEdit="False" />
+        <Member Name="DatumVon" DisplayFormat="{0:g}" MaskSettings="AwAAAA9NYXNrTWFuYWdlclR5cGUAgwFEZXZFeHByZXNzLkRhdGEuTWFzay5EYXRlVGltZU1hc2tNYW5hZ2VyLCBEZXZFeHByZXNzLkRhdGEudjIxLjIsIFZlcnNpb249MjEuMi4zLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjg4ZDE3NTRkNzAwZTQ5YRRNYXNrTWFuYWdlclNpZ25hdHVyZQcCD2FsbG93TnVsbD1GYWxzZQRtYXNrBwIBZw==" AllowEdit="False" />
+        <Member Name="DurchschnittWatt" DisplayFormat="{0:#,###,##0.##} W" AllowEdit="False" />
+        <Member Name="ExportKwH" DisplayFormat="{0:#,###,##0.####} kWh" AllowEdit="False" />
+        <Member Name="PV_Modul" AllowEdit="False" />
+        <Member Name="Watt" DisplayFormat="{0:#,###,##0.##} W" AllowEdit="False" />
+      </OwnMembers>
+    </Class>
+    <Class Name="PV_Monitor.Module.BusinessObjects.PV_Modul" ImageName="Shopping_New" Caption="PV Modul">
+      <OwnMembers>
+        <Member Name="DatumInbetriebnahme" AllowEdit="False" />
+      </OwnMembers>
+    </Class>
+  </BOModel>
+  <NavigationItems NavigationStyle="Accordion" ShowImages="True" DefaultChildItemsDisplayStyle="List" StartupNavigationItem="PV_Modul_ListView">
+    <Items>
+      <Item Id="Default" Visible="True" Caption="Auswertung" ImageName="Zoom">
+        <Items>
+          <Item Id="PV_Modul_ListView" ViewId="PV_Modul_ListView" ObjectKey="" Index="0" IsNewNode="True" Removed="True" />
+          <Item Id="AutoimportEinstellung_ListView" ViewId="AutoimportEinstellung_ListView" ObjectKey="" Index="1" IsNewNode="True" Removed="True" />
+          <Item Id="Fehlerprotokoll_ListView" ViewId="Fehlerprotokoll_ListView" ObjectKey="" Index="2" IsNewNode="True" Removed="True" />
+          <Item Id="Einstellung_ListView" Caption="Einstellungen" />
+        </Items>
+      </Item>
+      <Item Id="Reports" Visible="False" />
+      <Item Id="Überwachung" Visible="False" />
+    </Items>
+  </NavigationItems>
   <Options UIType="TabbedMDI" FormStyle="Ribbon" ShowTabImage="False">
     <LayoutManagerOptions EnableLayoutGroupImages="False" />
   </Options>
@@ -9,27 +72,145 @@
     <SchemaModule Name="SystemWindowsFormsModule" Version="21.2.3.0" IsNewNode="True" />
   </SchemaModules>
   <Views>
+    <DetailView Id="AutoimportEinstellung_DetailView" AllowNew="False">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="100">
+            <LayoutGroup Id="AutoimportEinstellung" RelativeSize="100" Caption="AutoimportEinstellung">
+              <LayoutItem Id="Beschreibung" Index="0" RelativeSize="4.976671850699844" />
+              <LayoutGroup Id="Auto44af42e5-9ff8-4691-bf62-212272fe6fb3" ShowCaption="False" Caption="" Direction="Horizontal" Index="1" RelativeSize="95.02332814930016" IsNewNode="True">
+                <LayoutItem Id="ImportiereManuell" ViewItem="ImportiereManuell" Index="0" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="ImportiereBeiProgrammstart" ViewItem="ImportiereBeiProgrammstart" Index="1" RelativeSize="50" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="ImportiereManuell" Index="2" RelativeSize="91.44634525660965" Removed="True" />
+              <LayoutItem Id="ImportiereBeiProgrammstart" RelativeSize="4.821150855365475" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="AutoimportEinstellung_ListView" AllowNew="False" AllowEdit="True">
+      <Columns>
+        <ColumnInfo Id="Enum_AutoimportX" SortIndex="0" SortOrder="Descending" />
+        <ColumnInfo Id="Beschreibung" SortIndex="-1" SortOrder="Descending" />
+      </Columns>
+    </ListView>
+    <DetailView Id="Einstellung_DetailView" AllowDelete="False" AllowNew="False">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="100">
+            <LayoutGroup Id="Einstellung" RelativeSize="100" Direction="Vertical">
+              <LayoutGroup Id="Einstellung_col1" RelativeSize="100">
+                <LayoutItem Id="Name" RelativeSize="5.194805194805195" />
+                <LayoutItem Id="Wert_string" RelativeSize="3.751803751803752" Index="1" />
+                <LayoutItem Id="Wert_int" ViewItem="Wert_int" Index="2" RelativeSize="3.751803751803752" IsNewNode="True" />
+                <LayoutItem Id="Wert_double" ViewItem="Wert_double" Index="3" RelativeSize="3.751803751803752" IsNewNode="True" />
+                <LayoutItem Id="Wert_bool" ViewItem="Wert_bool" Index="4" RelativeSize="3.463203463203463" IsNewNode="True" />
+                <LayoutItem Id="Beschreibung" RelativeSize="80.08658008658008" Index="5" />
+              </LayoutGroup>
+              <LayoutGroup Id="Einstellung_col2" RelativeSize="50" Caption="Einstellung_col2" TextAlignMode="UseParentOptions" Removed="True">
+                <LayoutItem Id="Wert_bool" Index="0" RelativeSize="100" Removed="True" />
+                <LayoutItem Id="Wert_double" Index="0" RelativeSize="5.194805194805195" Removed="True" />
+                <LayoutItem Id="Wert_int" Removed="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="Einstellung_ListView" AllowDelete="False" AllowEdit="True" AllowLink="False" AllowNew="False">
+      <Columns>
+        <ColumnInfo Id="Name" Width="79" />
+        <ColumnInfo Id="Beschreibung" Width="113" />
+        <ColumnInfo Id="Wert_string" Width="96" />
+        <ColumnInfo Id="Wert_int" Width="56" />
+        <ColumnInfo Id="Wert_double" Width="56" />
+        <ColumnInfo Id="Wert_bool" Width="56" />
+      </Columns>
+    </ListView>
+    <DetailView Id="Fehlerprotokoll_DetailView" AllowNew="False">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="100">
+            <LayoutGroup Id="Fehlerprotokoll" RelativeSize="100">
+              <LayoutItem Id="Datum" RelativeSize="4.976671850699844" />
+              <LayoutGroup Id="Autob14ae984-4dfd-41bc-876c-0a93e56f0a07" ShowCaption="False" Caption="" Direction="Horizontal" Index="1" RelativeSize="3.7325038880248833" IsNewNode="True">
+                <LayoutItem Id="Fehlergruppe" ViewItem="Fehlergruppe" Index="0" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="Schweregrad" ViewItem="Schweregrad" Index="1" RelativeSize="50" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="Fehlergruppe" Index="1" RelativeSize="3.7325038880248833" Removed="True" />
+              <LayoutItem Id="Beschreibung" Index="2" RelativeSize="91.29082426127528" />
+              <LayoutItem Id="Schweregrad" Index="2" RelativeSize="3.7325038880248833" Removed="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="Fehlerprotokoll_ListView" AllowNew="False">
+      <Columns>
+        <ColumnInfo Id="Datum" Width="63" />
+        <ColumnInfo Id="Fehlergruppe" Index="1" Width="90" />
+        <ColumnInfo Id="Schweregrad" Index="2" Width="88" />
+        <ColumnInfo Id="Beschreibung" Index="3" Width="92" />
+      </Columns>
+    </ListView>
+    <DetailView Id="Messwert_DetailView" AllowNew="False">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="100">
+            <LayoutGroup Id="Messwert" RelativeSize="100">
+              <LayoutGroup Id="Messwert_col1" RelativeSize="50">
+                <LayoutItem Id="DatumVon" RelativeSize="5.3156146179401995" />
+                <LayoutItem Id="AutoimportX" Index="1" RelativeSize="3.9867109634551494" />
+                <LayoutItem Id="Watt" Index="2" RelativeSize="90.69767441860465" />
+                <LayoutItem Id="DatumBis" Removed="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Messwert_col2" RelativeSize="50">
+                <LayoutItem Id="DatumBis" ViewItem="DatumBis" Index="0" RelativeSize="5.3156146179401995" IsNewNode="True" />
+                <LayoutItem Id="AnzahlMesswerteX" Index="1" RelativeSize="3.9867109634551494" />
+                <LayoutItem Id="DurchschnittWatt" ViewItem="DurchschnittWatt" Index="2" RelativeSize="3.9867109634551494" IsNewNode="True" Removed="True" />
+                <LayoutItem Id="ExportKwH" Index="3" RelativeSize="86.7109634551495" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
     <DetailView Id="PV_Modul_DetailView">
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
-          <LayoutGroup Id="SimpleEditors" RelativeSize="13.374805598755833">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="9.956076134699854">
             <LayoutGroup Id="PV_Modul">
-              <LayoutItem Id="DatenbankID_Leistung" RelativeSize="27.906976744186046" />
+              <LayoutGroup Id="Autoe5bffae0-5223-4370-af24-8b56ffd44027" ShowCaption="False" Caption="" Direction="Horizontal" Index="0" RelativeSize="47.05882352941177" IsNewNode="True">
+                <LayoutItem Id="Beschreibung" ViewItem="Beschreibung" Index="0" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="DatumInbetriebnahme" ViewItem="DatumInbetriebnahme" Index="1" RelativeSize="50" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Autoef7abeb3-d4ad-4ed0-9052-5d4225ccc745" ShowCaption="False" Caption="Autoef7abeb3-d4ad-4ed0-9052-5d4225ccc745(5)" Direction="Horizontal" Index="1" RelativeSize="52.94117647058823" IsNewNode="True">
+                <LayoutItem Id="DatenbankID_Leistung" ViewItem="DatenbankID_Leistung" Index="0" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="DatenbankID_ExportKwh" ViewItem="DatenbankID_ExportKwh" Index="1" RelativeSize="50" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="DatumInbetriebnahme" Index="2" Removed="True" />
+              <LayoutItem Id="Beschreibung" Removed="True" />
+              <LayoutItem Id="DatenbankID_ExportKwh" Removed="True" />
+              <LayoutItem Id="DatenbankID_Leistung" RelativeSize="27.906976744186046" Removed="True" />
             </LayoutGroup>
           </LayoutGroup>
-          <LayoutGroup Id="Messwert_Liste_Group" TextAlignMode="AlignWithChildren" Direction="Vertical" RelativeSize="86.62519440124417">
+          <LayoutGroup Id="Messwert_Liste_Group" TextAlignMode="AlignWithChildren" Direction="Vertical" RelativeSize="90.04392386530014">
             <LayoutItem Id="Messwert_Liste" RelativeSize="100" />
           </LayoutGroup>
         </LayoutGroup>
         <LayoutItem Id="Messwert_Liste" Removed="True" />
       </Layout>
     </DetailView>
-    <ListView Id="PV_Modul_Messwert_Liste_ListView" ShowAutoFilterRow="True" IsFooterVisible="True">
+    <ListView Id="PV_Modul_Messwert_Liste_ListView" ShowAutoFilterRow="True" IsFooterVisible="True" DataAccessMode="Server" AllowNew="False">
       <Columns>
-        <ColumnInfo Id="DatumVon" Width="72" SortIndex="1" SortOrder="Descending" />
-        <ColumnInfo Id="DatumBis" Width="67" />
-        <ColumnInfo Id="AutoimportX" Width="94" SortIndex="0" SortOrder="Descending" />
+        <ColumnInfo Id="DatumVon" Width="96" SortIndex="1" SortOrder="Descending" />
+        <ColumnInfo Id="DatumBis" Width="96" />
+        <ColumnInfo Id="AutoimportX" Width="107" SortIndex="0" SortOrder="Descending" />
         <ColumnInfo Id="Watt" Width="67" />
+        <ColumnInfo Id="DurchschnittWatt" Width="107" />
+        <ColumnInfo Id="ExportKwH" Width="103" />
+        <ColumnInfo Id="AnzahlMesswerteX" Width="107" />
       </Columns>
     </ListView>
   </Views>

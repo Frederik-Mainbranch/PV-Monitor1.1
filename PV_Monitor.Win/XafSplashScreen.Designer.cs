@@ -127,7 +127,7 @@
             this.labelSubtitle.Name = "labelSubtitle";
             this.labelSubtitle.Size = new System.Drawing.Size(64, 25);
             this.labelSubtitle.TabIndex = 1;
-            this.labelSubtitle.Text = "Subtitle";
+            this.labelSubtitle.Text = "Der Photovoltaik Monitor für Privatpersonen";
             // 
             // labelApplicationName
             // 
@@ -139,7 +139,7 @@
             this.labelApplicationName.Name = "labelApplicationName";
             this.labelApplicationName.Size = new System.Drawing.Size(278, 47);
             this.labelApplicationName.TabIndex = 0;
-            this.labelApplicationName.Text = "Application Name";
+            this.labelApplicationName.Text = "PV Monitor";
             // 
             // XafSplashScreen
             // 
@@ -149,7 +149,7 @@
             this.ClientSize = new System.Drawing.Size(496, 370);
             this.Controls.Add(this.pcApplicationName);
             this.Controls.Add(this.peImage);
-            this.Controls.Add(this.peLogo);
+            //this.Controls.Add(this.peLogo);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.labelCopyright);
             this.Controls.Add(this.progressBarControl);

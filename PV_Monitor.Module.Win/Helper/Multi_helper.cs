@@ -30,7 +30,8 @@ namespace PV_Monitor.Module.Win.Helper
                         int unwichtige_posi2 = zeile.IndexOf("\"", unwichtige_posi1 + 1);
                         int posi_start = zeile.IndexOf("\"", unwichtige_posi2 + 1);
                         int posi_ende = zeile.IndexOf("\"", posi_start + 1);
-                        return zeile.Substring(posi_start + 1, posi_ende - posi_start - 1);
+                        string result = zeile.Substring(posi_start + 1, posi_ende - posi_start - 1);
+                        return result;
                     }
                 }
             }

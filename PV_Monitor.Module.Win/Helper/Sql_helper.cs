@@ -17,13 +17,30 @@ namespace PV_Monitor.Module.Win.Helper
 
         public static string KonvertiereZu_mysqlDatetime(DateTime dateTime)
         {
-            string mysqlDatetime = (dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds.ToString();
+            DateTime relevantesDatum = dateTime;
+            if (relevantesDatum.IsDaylightSavingTime() == true) //Sommerzeit
+            {
+                relevantesDatum = relevantesDatum.AddHours(-2);
+            }
+            else
+            {
+                relevantesDatum = relevantesDatum.AddHours(-1); //Winterzeit
+            }
+            string mysqlDatetime = (relevantesDatum - new DateTime(1970, 1, 1)).TotalMilliseconds.ToString();
             return mysqlDatetime;
         }
 
-        public static DateTime KonvertiereZu_Datetime(double millisekunden)
+        public static DateTime KonvertiereZu_Datetime(long millisekunden)
         {
-            DateTime ausgabe = new DateTime(1970, 1, 1).AddHours(1).AddMilliseconds(millisekunden);
+            DateTime ausgabe = new DateTime(1970, 1, 1).AddMilliseconds(millisekunden);
+            if (ausgabe.IsDaylightSavingTime() == true)
+            {
+                ausgabe = ausgabe.AddHours(2); //Sommerzeit
+            }
+            else
+            {
+                ausgabe = ausgabe.AddHours(1);  //Winterzeit
+            }
             return ausgabe;
         }
 
@@ -92,7 +109,7 @@ namespace PV_Monitor.Module.Win.Helper
             string query = $"select min(ts) from ts_number where id = {modul.DatenbankID_Leistung} and q = 0";
             MySqlConnection mySqlConnection = Connection;
             MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
-            double millisek = 0;
+            long millisek = 0;
 
             try
             {
@@ -106,7 +123,7 @@ namespace PV_Monitor.Module.Win.Helper
                         break;
                     }
 
-                    if (double.TryParse(line, out millisek) == false)
+                    if (long.TryParse(line, out millisek) == false)
                     { 
                         MessageBox.Show($"Fehler beim Importieren des Wertes '{line}'");
                     }

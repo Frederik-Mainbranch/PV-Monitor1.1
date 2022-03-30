@@ -1,5 +1,6 @@
 ﻿using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.ConditionalAppearance;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
@@ -89,6 +90,17 @@ namespace PV_Monitor.Module.BusinessObjects
         }
 
 
+        private double _DurchschnittWatt;
+        [XafDisplayName("Durchschnitt Watt")]
+        public double DurchschnittWatt
+        {
+            get { return _DurchschnittWatt; }
+            set { SetPropertyValue<double>(nameof(DurchschnittWatt), ref _DurchschnittWatt, value); }
+        }
+
+
+
+
         private double _ExportKwH;
         [XafDisplayName("Exportierte kW/H")]
         public double ExportKwH
@@ -108,12 +120,12 @@ namespace PV_Monitor.Module.BusinessObjects
         }
 
 
-        private long _AnzahlMesswerteX;
+        private int _AnzahlMesswerteX;
         [XafDisplayName("Anzahl Messwerte")]
-        public long AnzahlMesswerteX
+        public int AnzahlMesswerteX
         {
             get { return _AnzahlMesswerteX; }
-            set { SetPropertyValue<long>(nameof(AnzahlMesswerteX), ref _AnzahlMesswerteX, value); }
+            set { SetPropertyValue<int>(nameof(AnzahlMesswerteX), ref _AnzahlMesswerteX, value); }
         }
 
 

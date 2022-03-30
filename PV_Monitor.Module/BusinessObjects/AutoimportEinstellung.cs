@@ -66,7 +66,10 @@ namespace PV_Monitor.Module.BusinessObjects
 
 
         private Enum_Autoimport _Enum_AutoimportX;
-        [Browsable(false)]
+        [VisibleInDetailView(false)]
+        [VisibleInListView(false)]
+        [VisibleInLookupListView(false)]
+        [VisibleInDashboards(false)]
         public Enum_Autoimport Enum_AutoimportX
         {
             get { return _Enum_AutoimportX; }

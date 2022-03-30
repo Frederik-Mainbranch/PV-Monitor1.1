@@ -22,7 +22,9 @@ namespace PV_Monitor.Module.Win.Helper
         public static bool IstRootApplication { get; set; }
         //public static bool IstEntwicklungsModus { get; set; } = true;
         public static string Einstellungspfad { get; set; }
-
+        public static string Path_appData { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PV Monitor");
+        public static string path_logDatei { get; set; }
+        public static string path_datenbank { get; set; }
 
         public static void Schreibe_sqlLiteConnectionstring()
         {
@@ -83,10 +85,15 @@ namespace PV_Monitor.Module.Win.Helper
                 string connectionstring = Multi_helper.Besorge_ZeileAusConfig("\"ConnectionString\"");
                 if (string.IsNullOrEmpty(connectionstring)) //Connectionstring muss ermittelt werden und geschrieben werden
                 {
-                        connectionstring = SQLiteConnectionProvider.GetConnectionString(Path.Combine(AppContext.BaseDirectory, "DB_PV-Monitor.mdf"));
+                    path_datenbank = Path.Combine(Path_appData, "DB_PV-Monitor.mdf");
+                    connectionstring = SQLiteConnectionProvider.GetConnectionString(path_datenbank);
+                    connectionstring = connectionstring.Replace("\"", ""); //Es kann sonst vorkommen, dass der Connectionstring den Path mit zu viel "" übergibt und dies dann nicht mehr eingelesen werden kann von xpo
+                    //MessageBox.Show("abc " + connectionstring + " def");
+                    WinApp_helper.Schreibe_log("Neuer SQL Lite Connection String gesetzt: " + connectionstring);
                 }
                 else
                 {
+                    WinApp_helper.Schreibe_log("Vorhandener SQL Lite Connection String gefunden");
                     return;
                 }
 
@@ -102,12 +109,16 @@ namespace PV_Monitor.Module.Win.Helper
 
                         datei = reader.ReadToEnd();
                         reader.Close();
+                        WinApp_helper.Schreibe_log("Einstellungsdatei eingelesen");
                     }
 
                     using (StreamWriter writer = new StreamWriter(Einstellungspfad))
                     {
                         string dummy_datei = datei;
-                        datei = datei.Replace("<add name=\"ConnectionString\" connectionString=\"\" />", $"<add name=\"ConnectionString\" connectionString=\"{connectionstring}\" />)");
+                        //string test = $"<add name=\"ConnectionString\" connectionString=\"{connectionstring}\" />)";
+                        //string test2 = test.Replace("\\\\", "\\");
+                        //MessageBox.Show(test2);
+                        datei = datei.Replace("<add name=\"ConnectionString\" connectionString=\"\" />", $"<add name=\"ConnectionString\" connectionString=\"{connectionstring}\" />");
                         writer.Write(datei);
                         if (dummy_datei == datei)
                         {
@@ -116,17 +127,41 @@ namespace PV_Monitor.Module.Win.Helper
 
                         writer.Close();
                     }
+
+                    WinApp_helper.Schreibe_log("Neuen SQLLite Connectionstring geschrieben");
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Fehler beim schreiben des ermittelten Connectionstrings. Stacktrace: \r\n" + e);
+                    WinApp_helper.Schreibe_log("Fehler beim schreiben des neuen SQLLite Connectionstring");
+                    MessageBox.Show("Fehler beim schreiben des ermittelten Connectionstrings.\r\n\r\n----- wichtig -----\r\n\r\nBei dem ersten Start der Anwendung muss diese bitte als Administrator gestartet werden, damit der Pfad zur Anwendung in der Config Datei gespeichert werden kann.\r\n\r\n----- wichtig -----\r\n\r\nStacktrace: \r\n" + e);
+                    App.Exit();
                 }
 
             }
         }
 
+        public static void Schreibe_log(string text)
+        {
+            using (StreamWriter writer = new StreamWriter(WinApp_helper.path_logDatei, true))
+            {
+                writer.WriteLine(text);
+            }
+        }
+
         public static void Initialisiere_Anwendung()
         {
+            if (Directory.Exists(Path_appData) == false)
+            {
+                Directory.CreateDirectory(Path_appData);
+            }
+
+            path_logDatei = Path.Combine(Path_appData, @"Start-log.txt");
+
+            using (StreamWriter writer = new StreamWriter(WinApp_helper.path_logDatei))
+            {
+                writer.Write("");
+            }
+
             //0. Das Event des Callen der Agnostic Messagebox abonieren
             //1. Setzten des Pfades zum Einstellungspfad
             //2. Überprüfen, ob die Application eine "Root Application" ist oder sie vom Modelaeditor oder anderen build prozessen gestartet wurde, weil dies zu problemen bei der pfad Ermittlung führen kann
@@ -137,9 +172,11 @@ namespace PV_Monitor.Module.Win.Helper
             if (File.Exists(Einstellungspfad) == true)
             {
                 IstRootApplication = true;
+                Schreibe_log("Ist Root Application");
             }
 
             Schreibe_sqlLiteConnectionstring();
+            Schreibe_log("WinHelper: Initialisiere App abgeschlossen");
         }
 
         private static void Agnostic_Caller_Helper_messageEvent(object sender, NotfallMitteilungEventArgs e)

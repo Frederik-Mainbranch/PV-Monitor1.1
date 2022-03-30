@@ -18,7 +18,7 @@ namespace PV_Monitor.Win {
         /// </summary>
         [STAThread]
         static void Main() {
-            WinApp_helper.Initialisiere_Anwendung();
+           WinApp_helper.Initialisiere_Anwendung();
 
 
             DevExpress.ExpressApp.FrameworkSettings.DefaultSettingsCompatibilityMode = DevExpress.ExpressApp.FrameworkSettingsCompatibilityMode.Latest;

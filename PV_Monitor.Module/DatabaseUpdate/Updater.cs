@@ -28,6 +28,7 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                     pv_l1 = ObjectSpace.CreateObject<PV_Modul>();
                     pv_l1.Beschreibung = "L1";
                     pv_l1.DatenbankID_Leistung = 94;
+                    pv_l1.DatenbankID_kWh = 96;
                 }
                 PV_Modul pv_l2 = ObjectSpace.FirstOrDefault<PV_Modul>(u => u.DatenbankID_Leistung == 98);
                 if (pv_l2 == null)
@@ -35,6 +36,7 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                     pv_l2 = ObjectSpace.CreateObject<PV_Modul>();
                     pv_l2.Beschreibung = "L2";
                     pv_l2.DatenbankID_Leistung = 98;
+                    pv_l2.DatenbankID_kWh = 97;
                 }
                 PV_Modul pv_l3 = ObjectSpace.FirstOrDefault<PV_Modul>(u => u.DatenbankID_Leistung == 93);
                 if (pv_l3 == null)
@@ -42,6 +44,7 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                     pv_l3 = ObjectSpace.CreateObject<PV_Modul>();
                     pv_l3.Beschreibung = "L3";
                     pv_l3.DatenbankID_Leistung = 93;
+                    pv_l3.DatenbankID_kWh = 95;
                 }
             }
             #endregion PV-Modul
@@ -97,17 +100,31 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                 autoimport_stuendlich.Enum_AutoimportX = Enum_Autoimport.Stuendlich;
             }
 
-            AutoimportEinstellung autoimport_minuetlich = ObjectSpace.FirstOrDefault<AutoimportEinstellung>(u => u.Enum_AutoimportX == Enum_Autoimport.Viertelstuendlich);
-            if (autoimport_minuetlich == null)
+            AutoimportEinstellung autoimport_viertelstuendlich = ObjectSpace.FirstOrDefault<AutoimportEinstellung>(u => u.Enum_AutoimportX == Enum_Autoimport.Viertelstuendlich);
+            if (autoimport_viertelstuendlich == null)
             {
-                autoimport_minuetlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
-                autoimport_minuetlich.Beschreibung = "viertelstündlich";
-                autoimport_minuetlich.ImportiereBeiProgrammstart = false;
-                autoimport_minuetlich.ImportiereManuell = false;
-                autoimport_minuetlich.Enum_AutoimportX = Enum_Autoimport.Viertelstuendlich;
+                autoimport_viertelstuendlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
+                autoimport_viertelstuendlich.Beschreibung = "viertelstündlich";
+                autoimport_viertelstuendlich.ImportiereBeiProgrammstart = false;
+                autoimport_viertelstuendlich.ImportiereManuell = false;
+                autoimport_viertelstuendlich.Enum_AutoimportX = Enum_Autoimport.Viertelstuendlich;
             }
 
             #endregion --Autoimport Einstellung
+
+            #region Einstellung
+
+            Einstellung zeigeAutoimportbenachrichtigung = ObjectSpace.FirstOrDefault<Einstellung>(x => x.AuswahlEinstellungX == Einstellung.Enum_AuswahlEinstellung_bool.ZeigeAutoimportBenachrichtigung);
+            if (zeigeAutoimportbenachrichtigung == null)
+            {
+                zeigeAutoimportbenachrichtigung = ObjectSpace.CreateObject<Einstellung>();
+                zeigeAutoimportbenachrichtigung.Name = "Zeige Autoimportbenachrichtigung";
+                zeigeAutoimportbenachrichtigung.Beschreibung = "Wenn aktiviert: Zeigt beim Programmstart die Benachrichtigung, wie viele Messwerte durch den automatischen Import beim Programmstart importiert wurden";
+                zeigeAutoimportbenachrichtigung.AuswahlEinstellungX = Einstellung.Enum_AuswahlEinstellung_bool.ZeigeAutoimportBenachrichtigung;
+                zeigeAutoimportbenachrichtigung.Wert_bool = false;
+            }
+
+            #endregion Einstellung
 
             if (ObjectSpace.IsModified)
             {

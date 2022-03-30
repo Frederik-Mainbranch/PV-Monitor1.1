@@ -35,7 +35,7 @@ namespace PV_Monitor.Win {
         public XafSplashScreen() {
             InitializeComponent();
 			LoadBlankLogo();
-            this.labelCopyright.Text = "Copyright © " + DateTime.Now.Year.ToString() + " Company Name" +  System.Environment.NewLine + "All rights reserved.";
+            this.labelCopyright.Text = "Copyright © " + DateTime.Now.Year.ToString() + " Medienagentur Frederik Hartung" +  System.Environment.NewLine + "Alle Rechte vorbehalten.";
             UpdateLabelsPosition();
         }
         

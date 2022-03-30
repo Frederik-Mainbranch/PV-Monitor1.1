@@ -1,7 +1,7 @@
 ﻿
 namespace PV_Monitor.Module.Win.Controllers
 {
-    partial class PV_Monitor_VC
+    partial class VC_PV_Monitor
     {
         /// <summary>
         /// Required designer variable.
