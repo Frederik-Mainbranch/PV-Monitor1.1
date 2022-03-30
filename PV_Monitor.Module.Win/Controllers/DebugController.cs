@@ -56,7 +56,7 @@ namespace PV_Monitor.Module.Win.Controllers
 
         private void SA_testeAsync_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            Autoimport_helper.StarteAutoimportV2_multiT(false);
+            Autoimport_helper.StarteAutoimportV2_multiT();
         }
 
         //private void SA_ZeigeWaitingform_Execute(object sender, SimpleActionExecuteEventArgs e)
