@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp;
+﻿using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
 using DevExpress.XtraSplashScreen;
 using PV_Monitor.Module.BusinessObjects;
 using PV_Monitor.Module.Win.Controllers;
@@ -18,8 +19,9 @@ namespace PV_Monitor.Module.Win.Helper
 
         public static void StarteAutoimportV1_multiT(bool istProgrammstart)
         {
-            Thread importThread = new Thread(() => StarteAutoimportV1(istProgrammstart));
-            importThread.Start();
+            //Thread importThread = new Thread(() => StarteAutoimportV1(istProgrammstart));
+            //importThread.Start();
+            Task.Run(() => StarteAutoimportV1(false));
         }
 
         public static void StarteAutoimportV2_multiT()
@@ -29,8 +31,10 @@ namespace PV_Monitor.Module.Win.Helper
 
         private struct PerformenceMesser
         {
-            public double dauer_import_rohdaten;
+            public double dauer_importRohdaten;
             public double dauer_konvertierung;
+            public double dauer_messwerteErstellen;
+            public int anzahl_erstellterMesswerte;
             public Stopwatch stopwatch_import_gesamt;
             public IObjectSpace os;
         }
@@ -94,7 +98,7 @@ namespace PV_Monitor.Module.Win.Helper
                 }
             }
             stopwatch_importRohdaten.Stop();
-            pfm.dauer_import_rohdaten = Math.Round((stopwatch_importRohdaten.ElapsedMilliseconds / 1000.0d), 2);
+            pfm.dauer_importRohdaten = Math.Round((stopwatch_importRohdaten.ElapsedMilliseconds / 1000.0d), 2);
             Konvertiere_rohdaten(pfm, importListe);
         }
 
@@ -131,52 +135,212 @@ namespace PV_Monitor.Module.Win.Helper
 
         private static void Erstelle_Messwerte(PerformenceMesser pfm, List<(PV_Modul modul, (DateTime uhrzeit, double wert)[] konvertierte_rohdaten_watt, (DateTime uhrzeit, double wert)[] konvertierte_rohdaten_kWh)> konvertierte_rohdaten_liste)
         {
+            Stopwatch stopwatch_messwerteErstellen = Stopwatch.StartNew();
 
-            //Stopwatch stopwatch_messwerteErstellen = Stopwatch.StartNew();
+            foreach (var import in konvertierte_rohdaten_liste)
+            {
+                object test = pfm.os.Evaluate(typeof(Messwert), CriteriaOperator.Parse($"Max({nameof(Messwert.DatumBis)})"), new BinaryOperator(nameof(Messwert.PV_Modul), import.modul));
+                DateTime letzterMesswertVorhanden = DateTime.MinValue;
+                if (test != null)
+                {
+                    letzterMesswertVorhanden = (DateTime)test;
+                }
 
-            ////watt
-            //DateTime erster_messwert_datum = konvertierteMesswerte_watt[0].uhrzeit;
-            //int minuten_erstesDatum = erster_messwert_datum.Minute;
-            //int relevante_minuten = 0;
-            //if (minuten_erstesDatum >= 15 && minuten_erstesDatum < 30)
-            //{
-            //    relevante_minuten = 15;
-            //}
-            //else if (minuten_erstesDatum >= 30 && minuten_erstesDatum < 45)
-            //{
-            //    relevante_minuten = 30;
-            //}
-            //else if (minuten_erstesDatum >= 45)
-            //{
-            //    relevante_minuten = 45;
-            //}
-            //DateTime intervall_start = new DateTime(erster_messwert_datum.Year, erster_messwert_datum.Month, erster_messwert_datum.Day, erster_messwert_datum.Hour, relevante_minuten, 0);
-            //DateTime intervall_ende = intervall_start.AddMinutes(15);
-            //int index_start = 0;
-            //int index_ende = 0;
+                    // Messwert letzterMesswertVorhanden = (Messwert)pfm.os.Evaluate(typeof(Messwert), CriteriaOperator.Parse($"Max({nameof(Messwert.DatumBis)})"), new BinaryOperator(nameof(Messwert.PV_Modul), import.modul));
+                DateTime ersterMesswertDatum_watt = import.konvertierte_rohdaten_watt[0].uhrzeit;
+                DateTime ersterMesswertDatum_kWh = import.konvertierte_rohdaten_kWh[0].uhrzeit;
+                DateTime ersterMesswertDatum_relevant = DateTime.MinValue;
+                if (ersterMesswertDatum_watt < ersterMesswertDatum_kWh)
+                {
+                    ersterMesswertDatum_relevant = ersterMesswertDatum_watt;
+                }
+                else
+                {
+                    ersterMesswertDatum_relevant = ersterMesswertDatum_kWh;
+                }
 
+                int relevante_minuten = 0;
+                int minuten_erstesDatum = ersterMesswertDatum_relevant.Minute;
 
+                if (minuten_erstesDatum >= 15 && minuten_erstesDatum < 30)
+                {
+                    relevante_minuten = 15;
+                }
+                else if (minuten_erstesDatum >= 30 && minuten_erstesDatum < 45)
+                {
+                    relevante_minuten = 30;
+                }
+                else if (minuten_erstesDatum >= 45)
+                {
+                    relevante_minuten = 45;
+                }
 
-            //for (int i = 0; i < konvertierteMesswerte_watt.Length - 1; i++)
-            //{
-            //    if (konvertierteMesswerte_watt[i].uhrzeit >= intervall_ende)
-            //    {
-            //        Messwert messwert = os.CreateObject<Messwert>();
-            //        index_ende = i - 1;
-            //        messwert.AnzahlMesswerteX = index_ende - index_start;
-            //        index_start = i;
-            //        messwert.PV_Modul = modul;
+                DateTime intervall_start = new DateTime(ersterMesswertDatum_relevant.Year, ersterMesswertDatum_relevant.Month, ersterMesswertDatum_relevant.Day, ersterMesswertDatum_relevant.Hour, relevante_minuten, 0);
+                DateTime leereMesswerte_startdatum = DateTime.MinValue;
 
-            //        messwert.DatumVon = intervall_start;
-            //        messwert.DatumBis = intervall_ende;
+                if (letzterMesswertVorhanden == DateTime.MinValue) //wenn kein Messwert gefunden => noch keine Messwerte importiert => Start von 00:00 des Tages des ersten neuen Roh Messwertes
+                {
+                    leereMesswerte_startdatum = new DateTime(ersterMesswertDatum_relevant.Year, ersterMesswertDatum_relevant.Month, ersterMesswertDatum_relevant.Day, 0, 0, 0);
+                }
+                else //Messwerte schon vorhanden => nur leere Messwerte in den Zeiten erstellen zwischen den letzten vorhandenen und den ersten neuen Messwert erstellen
+                {
+                    leereMesswerte_startdatum = letzterMesswertVorhanden;
+                }
 
-            //    }
-            //}
+                Erstelle_LeereMesswerte(ref pfm, import.modul, leereMesswerte_startdatum, intervall_start);
+                Erstelle_neueMesswerte_viertelstunde(ref pfm, import, intervall_start);
+                Erstelle_neueMesswerte_stunde(ref pfm, import, intervall_start);
+            }
 
-            //stopwatch_messwerteErstellen.Stop();
+            stopwatch_messwerteErstellen.Stop();
+            pfm.dauer_messwerteErstellen = Math.Round((stopwatch_messwerteErstellen.ElapsedMilliseconds / 1000.0d), 2);
+
+            pfm.os.CommitChanges();
         }
 
-        public static void StarteAutoimportV1(bool istProgrammstart)
+        private static void Erstelle_LeereMesswerte(ref PerformenceMesser pfm, PV_Modul modul, DateTime date_von, DateTime date_bis)
+        {
+            DateTime leererMesswert_start = date_von;
+            DateTime leererMesswert_ende= date_von.AddMinutes(15);
+
+            while (leererMesswert_ende <= date_bis)
+            {
+                Messwert messwert = pfm.os.CreateObject<Messwert>();
+                messwert.PV_Modul = modul;
+                messwert.DatumVon = leererMesswert_start;
+                messwert.DatumBis = leererMesswert_ende;
+                messwert.AnzahlMesswerteX = 0;
+                messwert.AutoimportX = Enum_Autoimport.Viertelstuendlich;
+                messwert.DurchschnittWatt = 0;
+                messwert.ExportKwH = 0;
+                messwert.Watt = 0;
+
+                pfm.anzahl_erstellterMesswerte++;
+                leererMesswert_start = leererMesswert_start.AddMinutes(15);
+                leererMesswert_ende = leererMesswert_ende.AddMinutes(15);
+            }
+        }
+
+        private static void Erstelle_neueMesswerte_viertelstunde(ref PerformenceMesser pfm, (PV_Modul modul, (DateTime uhrzeit, double wert)[] daten_watt, (DateTime uhrzeit, double wert)[] daten_kWh) import, DateTime _intervall_start)
+        {
+            DateTime intervall_start = _intervall_start;
+            DateTime intervall_ende = _intervall_start.AddMinutes(15);
+            int index_watt_start = 0;
+            int index_watt_ende = 0;
+            int index_kWh_start = 0;
+            int index_kWh_ende = 0;
+            int aktuellesDatum_minuten = DateTime.Now.Minute;
+            int relevanteMinuten = 0;
+            if (aktuellesDatum_minuten >= 15 && aktuellesDatum_minuten < 30)
+            {
+                relevanteMinuten = 15;
+            }
+            else if(aktuellesDatum_minuten >= 30 && aktuellesDatum_minuten < 45)
+            {
+                relevanteMinuten = 30;
+            }
+            else if (aktuellesDatum_minuten >= 45)
+            {
+                relevanteMinuten = 45;
+            }
+            DateTime date_grenze = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, relevanteMinuten, 0);
+
+            bool ueberpruefe_watt = true;
+            bool ueberpruefe_kWh = true;
+            int anzahl_einraege_watt = import.daten_watt.Length - 2;
+            int anzahl_einraege_kWh = import.daten_kWh.Length - 2;
+
+            while (intervall_ende <= date_grenze)
+            {
+                if (ueberpruefe_watt)
+                {
+                    if (import.daten_watt[index_watt_ende + 1].uhrzeit <= intervall_ende)
+                    {
+                        if (index_watt_ende < anzahl_einraege_watt)
+                        {
+                            index_watt_ende++;
+                        }
+                        else
+                        {
+                            ueberpruefe_watt = false;
+                        }
+
+                        continue;
+                    }
+                }
+
+                if (ueberpruefe_kWh)
+                {
+                    if (import.daten_kWh[index_kWh_ende + 1].uhrzeit <= intervall_ende)
+                    {
+                        if (index_kWh_ende < anzahl_einraege_kWh)
+                        {
+                            index_kWh_ende++;
+                        }
+                        else
+                        {
+                            ueberpruefe_kWh = false;
+                        }
+                        continue;
+                    }
+                }
+
+
+                //an dieser Stelle sind die Grenzen des Intervalls sowie alle seine darin liegende Messwerte bekannt
+                Messwert messwert = pfm.os.CreateObject<Messwert>();
+                pfm.anzahl_erstellterMesswerte++;
+                messwert.PV_Modul = import.modul;
+                messwert.DatumVon = intervall_start;
+                messwert.DatumBis = intervall_ende;
+                messwert.AutoimportX = Enum_Autoimport.Viertelstuendlich;
+
+                if (index_watt_start < index_watt_ende)
+                {
+                    messwert.AnzahlMesswerteX = index_watt_ende - index_watt_start;
+                    double summe_watt = 0;
+                    double max_watt = 0;
+                    for (int i = index_watt_start; i <= index_watt_ende; i++)
+                    {
+                        summe_watt += import.daten_watt[i].wert;
+                        if (import.daten_watt[i].wert < max_watt)
+                        {
+                            max_watt = import.daten_watt[i].wert;
+                        }
+                    }
+                    messwert.DurchschnittWatt = summe_watt / messwert.AnzahlMesswerteX;
+                    messwert.Watt = max_watt;
+
+                    index_watt_start = index_watt_ende + 1;
+                }
+                else
+                {
+                    messwert.AnzahlMesswerteX = 0;
+                    messwert.DurchschnittWatt = 0;
+                    messwert.Watt = 0;
+                }
+
+                if (index_kWh_start < index_kWh_ende)
+                {
+                    messwert.ExportKwH = import.daten_kWh[index_kWh_ende].wert - import.daten_kWh[index_kWh_start].wert;
+                    index_kWh_start = index_kWh_ende + 1;
+                }
+                else
+                {
+                    messwert.ExportKwH = 0;
+                }
+
+                //hochsetzen der Intervalle
+                intervall_start = intervall_start.AddMinutes(15);
+                intervall_ende = intervall_ende.AddMinutes(15);
+            }
+        }
+
+        private static void Erstelle_neueMesswerte_stunde(ref PerformenceMesser pfm, (PV_Modul modul, (DateTime uhrzeit, double wert)[] daten_watt, (DateTime uhrzeit, double wert)[] daten_kWh) import, DateTime _intervall_start)
+        { 
+
+        }
+
+            public static void StarteAutoimportV1(bool istProgrammstart)
         {
             IObjectSpace os = WinApp_helper.App.CreateObjectSpace();
 
@@ -243,7 +407,7 @@ namespace PV_Monitor.Module.Win.Helper
                                 }
                             }
 
-                            // modul.Datum_letzterImport_jaehrlich = relevantesDatum;
+                             modul.Datum_letzterImport_jaehrlich = relevantesDatum;
                         }
                     }
 
@@ -287,7 +451,7 @@ namespace PV_Monitor.Module.Win.Helper
                                 //}
                             }
 
-                            //  modul.Datum_letzterImport_monatlich = relevantesDatum;
+                              modul.Datum_letzterImport_monatlich = relevantesDatum;
                         }
                     }
 
@@ -382,7 +546,7 @@ namespace PV_Monitor.Module.Win.Helper
                                 //}
                             }
 
-                            // modul.Datum_letzterImport_woechentlich = relevantesDatum;
+                             modul.Datum_letzterImport_woechentlich = relevantesDatum;
                         }
                     }
 
@@ -422,7 +586,7 @@ namespace PV_Monitor.Module.Win.Helper
                                 }
                             }
 
-                            // modul.Datum_letzterImport_taeglich = relevantesDatum;
+                            modul.Datum_letzterImport_taeglich = relevantesDatum;
                         }
                     }
 
@@ -462,7 +626,7 @@ namespace PV_Monitor.Module.Win.Helper
                                 }
                             }
 
-                            ///   modul.Datum_letzterImport_stuendlich = relevantesDatum;
+                               modul.Datum_letzterImport_stuendlich = relevantesDatum;
                         }
                     }
 
@@ -599,7 +763,7 @@ namespace PV_Monitor.Module.Win.Helper
             }
             else
             {
-                if (istProgrammstart == false)
+                if (Einstellung_helper.BesorgeEinstellung(Einstellung.Enum_AuswahlEinstellung_bool.ZeigeAutoimportBenachrichtigung) == true)
                 {
                     WinApp_helper.Erstelle_Fehlermeldung("Es wurden keine neuen Messwerte importiert, weil keine neuen Messwerte gefunden wurden.", Enum_FehlerSchweregrad.Hinweis, Enum_Fehlergruppe.Autoimport);
                 }

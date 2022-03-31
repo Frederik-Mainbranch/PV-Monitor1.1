@@ -27,15 +27,14 @@ namespace PV_Monitor.Module.Win.Controllers
         //SimpleAction SA_ZeigeWaitingform;
         SimpleAction SA_setzteLetztesImportDatumZurueck;
         SimpleAction SA_testeAsync;
-
-        System.Timers.Timer _timer;
+        SimpleAction SA_ErstelleTestMesswerte;
 
         public DebugController()
         {
             InitializeComponent();
             if (App_helper.IstEntwicklungsmodus == false)
             {
-                this.Active["keinEntwicklungsmodus"] = false;
+                this.Active["IstEntwicklungsmodus"] = false;
             }
 
             SA_setzteLetztesImportDatumZurueck = new SimpleAction(this, nameof(SA_setzteLetztesImportDatumZurueck), PredefinedCategory.Edit);
@@ -44,14 +43,42 @@ namespace PV_Monitor.Module.Win.Controllers
             SA_setzteLetztesImportDatumZurueck.ConfirmationMessage = "Wollen Sie wirklich alle Messwerte löschen? Es werden nur die Daten im PV Monitor gelöscht, die Daten des ioBrokers bleiben davon unberührt.";
             SA_setzteLetztesImportDatumZurueck.Execute += SA_setzteLetztesImportDatumZurueck_Execute;
 
+
             SA_testeAsync = new SimpleAction(this, nameof(SA_testeAsync), PredefinedCategory.Edit);
             SA_testeAsync.Caption = "Teste Import V2";
             SA_testeAsync.TargetObjectType = typeof(PV_Modul);
             SA_testeAsync.Execute += SA_testeAsync_Execute;
 
+
+            SA_ErstelleTestMesswerte = new SimpleAction(this, nameof(SA_ErstelleTestMesswerte), PredefinedCategory.Edit);
+            SA_ErstelleTestMesswerte.Caption = "Erstelle Testmesswerte";
+            SA_ErstelleTestMesswerte.Execute += SA_ErstelleTestMesswerte_Execute;
+
+
             //SA_ZeigeWaitingform = new SimpleAction(this, nameof(SA_ZeigeWaitingform), PredefinedCategory.Edit);
             //SA_ZeigeWaitingform.Caption = "Zeige Waitingform";
             //SA_ZeigeWaitingform.Execute += SA_ZeigeWaitingform_Execute;
+        }
+
+        private void SA_ErstelleTestMesswerte_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            Messwert messwert1 = ObjectSpace.CreateObject<Messwert>();
+            messwert1.DatumVon = new DateTime(2021, 5, 11, 12, 15, 0);
+            messwert1.DatumBis = new DateTime(2021, 5, 11, 12, 30, 0);
+            messwert1.PV_Modul = ObjectSpace.FindObject<PV_Modul>(new BinaryOperator(nameof(PV_Modul.Beschreibung), "L1"));
+
+            Messwert messwert2 = ObjectSpace.CreateObject<Messwert>();
+            messwert2.DatumVon = new DateTime(2021, 5, 12, 0, 0, 0);
+            messwert2.DatumBis = new DateTime(2021, 5, 12, 0, 15, 0);
+            messwert2.PV_Modul = ObjectSpace.FindObject<PV_Modul>(new BinaryOperator(nameof(PV_Modul.Beschreibung), "L2"));
+
+            Messwert messwert3 = ObjectSpace.CreateObject<Messwert>();
+            messwert3.DatumVon = new DateTime(2021, 5, 13, 23, 45, 0);
+            messwert3.DatumBis = new DateTime(2021, 5, 14, 0, 0, 0);
+            messwert3.PV_Modul = ObjectSpace.FindObject<PV_Modul>(new BinaryOperator(nameof(PV_Modul.Beschreibung), "L3"));
+
+            ObjectSpace.CommitChanges();
+            View.Refresh(true);
         }
 
         private void SA_testeAsync_Execute(object sender, SimpleActionExecuteEventArgs e)

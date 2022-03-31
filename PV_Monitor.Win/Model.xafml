@@ -155,6 +155,15 @@
       </Columns>
     </ListView>
     <DetailView Id="Messwert_DetailView" AllowNew="False">
+      <Items>
+        <PropertyEditor Id="AnzahlMesswerteX" AllowEdit="True" />
+        <PropertyEditor Id="AutoimportX" AllowEdit="True" />
+        <PropertyEditor Id="DatumBis" AllowEdit="True" />
+        <PropertyEditor Id="DatumVon" AllowEdit="True" />
+        <PropertyEditor Id="DurchschnittWatt" AllowEdit="True" />
+        <PropertyEditor Id="ExportKwH" AllowEdit="True" />
+        <PropertyEditor Id="Watt" AllowEdit="True" />
+      </Items>
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
           <LayoutGroup Id="SimpleEditors" RelativeSize="100">
@@ -191,7 +200,6 @@
               </LayoutGroup>
               <LayoutItem Id="DatumInbetriebnahme" Index="2" Removed="True" />
               <LayoutItem Id="Beschreibung" Removed="True" />
-              <LayoutItem Id="DatenbankID_ExportKwh" Removed="True" />
               <LayoutItem Id="DatenbankID_Leistung" RelativeSize="27.906976744186046" Removed="True" />
             </LayoutGroup>
           </LayoutGroup>
@@ -202,7 +210,7 @@
         <LayoutItem Id="Messwert_Liste" Removed="True" />
       </Layout>
     </DetailView>
-    <ListView Id="PV_Modul_Messwert_Liste_ListView" ShowAutoFilterRow="True" IsFooterVisible="True" DataAccessMode="Server" AllowNew="False">
+    <ListView Id="PV_Modul_Messwert_Liste_ListView" ShowAutoFilterRow="True" IsFooterVisible="True" DataAccessMode="Server" AllowNew="True">
       <Columns>
         <ColumnInfo Id="DatumVon" Width="96" SortIndex="1" SortOrder="Descending" />
         <ColumnInfo Id="DatumBis" Width="96" />

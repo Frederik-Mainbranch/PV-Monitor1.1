@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DetailView Id="PV_Modul_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="PV_Modul">
+              <LayoutItem Id="DatenbankID_ExportKwh" Removed="True" />
+              <LayoutGroup Id="Autoef7abeb3-d4ad-4ed0-9052-5d4225ccc745">
+                <LayoutItem Id="DatenbankID_ExportKwh" ViewItem="DatenbankID_ExportKwh" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+</Application>
