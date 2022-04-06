@@ -7,6 +7,7 @@ using DevExpress.Skins;
 using DevExpress.Utils.Drawing;
 using DevExpress.Utils.Svg;
 using DevExpress.XtraSplashScreen;
+using PV_Monitor.Module.Win.Helper;
 
 namespace PV_Monitor.Win {
     public partial class XafSplashScreen : SplashScreen {
@@ -37,8 +38,14 @@ namespace PV_Monitor.Win {
 			LoadBlankLogo();
             this.labelCopyright.Text = "Copyright © " + DateTime.Now.Year.ToString() + " Medienagentur Frederik Hartung" +  System.Environment.NewLine + "Alle Rechte vorbehalten.";
             UpdateLabelsPosition();
+            this.Disposed += XafSplashScreen_Disposed;
         }
-        
+
+        private void XafSplashScreen_Disposed(object sender, EventArgs e)
+        {
+            Autoimport_helper.StarteAutoimportV1_multiT(true);
+        }
+
         #region Overrides
 
         public override void ProcessCommand(Enum cmd, object arg) {

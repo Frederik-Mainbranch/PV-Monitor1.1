@@ -45,12 +45,12 @@ namespace PV_Monitor.Module.Win.Controllers
 
         private void SA_importiereMesswerte_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            SplashScreenManager.ShowDefaultWaitForm("Importiere Messwerte...");
             //Action callback = () =>
             //{
             //    if (SplashScreenManager.Default != null && SplashScreenManager.Default.IsSplashFormVisible)
             //        SplashScreenManager.CloseDefaultWaitForm();
             //};
+            WinApp_helper._Controller = this;
             Autoimport_helper.StarteAutoimportV1_multiT(false);
         }
 

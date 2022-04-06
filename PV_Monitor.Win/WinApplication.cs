@@ -44,18 +44,28 @@ namespace PV_Monitor.Win {
                 WinApp_helper.Schreibe_log("UserModelDifferenceFilePath gesetzt");
             }
 
-            LoggedOn += PV_MonitorWindowsFormsApplication_LoggedOn;
+
+
             SplashScreen = new DXSplashScreen(typeof(XafSplashScreen), new DefaultOverlayFormOptions());
+            //Nach dem Schließen bzw dem disposen des Splashscreens wird der Autoimport gestartet für alle Autoimports bei Programmstart
+
             if (WinApp_helper.IstRootApplication)
             {
                 WinApp_helper.Schreibe_log("Splashscreen erstellt");
             }
         }
 
-        private void PV_MonitorWindowsFormsApplication_LoggedOn(object sender, LogonEventArgs e)
-        {
-           // Autoimport_helper.StarteAutoimportV1(CreateObjectSpace(), true, null);
-        }
+
+
+        //private void PV_MonitorWindowsFormsApplication_StatusUpdating(object sender, DevExpress.ExpressApp.Utils.StatusUpdatingEventArgs e)
+        //{
+        //    var test = e;
+        //    //            Autoimport_helper.StarteAutoimportV1(true);
+        //}
+
+        //private void PV_MonitorWindowsFormsApplication_LoggedOn(object sender, LogonEventArgs e)
+        //{
+        //}
 
         private void SetMySqlConnectionstring()
         {

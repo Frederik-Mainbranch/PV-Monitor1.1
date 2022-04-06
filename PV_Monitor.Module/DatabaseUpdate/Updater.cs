@@ -56,7 +56,7 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                 autoimport_jaehrlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
                 autoimport_jaehrlich.Beschreibung = "jährlich";
                 autoimport_jaehrlich.ImportiereBeiProgrammstart = false;
-                autoimport_jaehrlich.ImportiereManuell = false;
+                autoimport_jaehrlich.ImportiereManuell = true;
                 autoimport_jaehrlich.Enum_AutoimportX = Enum_Autoimport.Jaehrlich;
             }
 
@@ -66,7 +66,7 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                 autoimport_monatlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
                 autoimport_monatlich.Beschreibung = "monatlich";
                 autoimport_monatlich.ImportiereBeiProgrammstart = false;
-                autoimport_monatlich.ImportiereManuell = false;
+                autoimport_monatlich.ImportiereManuell = true;
                 autoimport_monatlich.Enum_AutoimportX = Enum_Autoimport.Monatlich;
             }
 
@@ -76,7 +76,7 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                 autoimport_woechentlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
                 autoimport_woechentlich.Beschreibung = "wöchentlich";
                 autoimport_woechentlich.ImportiereBeiProgrammstart = false;
-                autoimport_woechentlich.ImportiereManuell = false;
+                autoimport_woechentlich.ImportiereManuell = true;
                 autoimport_woechentlich.Enum_AutoimportX = Enum_Autoimport.Woechentlich;
             }
 
@@ -86,7 +86,7 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                 autoimport_taeglich = ObjectSpace.CreateObject<AutoimportEinstellung>();
                 autoimport_taeglich.Beschreibung = "täglich";
                 autoimport_taeglich.ImportiereBeiProgrammstart = false;
-                autoimport_taeglich.ImportiereManuell = false;
+                autoimport_taeglich.ImportiereManuell = true;
                 autoimport_taeglich.Enum_AutoimportX = Enum_Autoimport.Taeglich;
             }
 
@@ -96,7 +96,7 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                 autoimport_stuendlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
                 autoimport_stuendlich.Beschreibung = "stündlich";
                 autoimport_stuendlich.ImportiereBeiProgrammstart = false;
-                autoimport_stuendlich.ImportiereManuell = false;
+                autoimport_stuendlich.ImportiereManuell = true;
                 autoimport_stuendlich.Enum_AutoimportX = Enum_Autoimport.Stuendlich;
             }
 
@@ -106,7 +106,7 @@ namespace PV_Monitor.Module.DatabaseUpdate {
                 autoimport_viertelstuendlich = ObjectSpace.CreateObject<AutoimportEinstellung>();
                 autoimport_viertelstuendlich.Beschreibung = "viertelstündlich";
                 autoimport_viertelstuendlich.ImportiereBeiProgrammstart = false;
-                autoimport_viertelstuendlich.ImportiereManuell = false;
+                autoimport_viertelstuendlich.ImportiereManuell = true;
                 autoimport_viertelstuendlich.Enum_AutoimportX = Enum_Autoimport.Viertelstuendlich;
             }
 

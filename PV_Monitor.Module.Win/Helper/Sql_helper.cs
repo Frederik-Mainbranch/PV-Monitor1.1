@@ -44,6 +44,25 @@ namespace PV_Monitor.Module.Win.Helper
             return ausgabe;
         }
 
+        public static void Oeffne_Verbindung()
+        {
+            MySqlConnection mySqlConnection = Connection;
+            if (mySqlConnection.State == ConnectionState.Closed)
+            {
+                mySqlConnection.Open();
+            }
+        }
+
+        public static void Schliesse_Verbindung()
+        {
+            MySqlConnection mySqlConnection = Connection;
+            if (mySqlConnection.State == ConnectionState.Open)
+            {
+                mySqlConnection.Close();
+            }
+        }
+
+
         /// <summary>
         /// Gibt eine List<object[] zurück mit so vielen Plätzen im Array wie Spalten des Query Ergebnisses
         /// </summary>
@@ -55,11 +74,12 @@ namespace PV_Monitor.Module.Win.Helper
             MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
             List<object[]> object_list = new List<object[]>();
             bool fehler = false;
+            MySqlDataReader mySqlDataReader = null;
 
             try
             {
-                mySqlConnection.Open();
-                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+                //mySqlConnection.Open();
+                mySqlDataReader = mySqlCommand.ExecuteReader();
                 int anzahl_columns = mySqlDataReader.FieldCount;
 
                 //if (export_schema)
@@ -93,7 +113,8 @@ namespace PV_Monitor.Module.Win.Helper
             }
             finally
             {
-                mySqlConnection.Close();
+                mySqlDataReader?.Close();
+               // mySqlConnection.Close();
             }
 
             if (fehler)
@@ -111,10 +132,11 @@ namespace PV_Monitor.Module.Win.Helper
             MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
             long millisek = 0;
 
+            MySqlDataReader mySqlDataReader = null;
             try
             {
-                mySqlConnection.Open();
-                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+                //mySqlConnection.Open();
+                mySqlDataReader = mySqlCommand.ExecuteReader();
                 while (mySqlDataReader.Read())
                 {
                     string line = mySqlDataReader.GetValue(0).ToString();
@@ -128,6 +150,8 @@ namespace PV_Monitor.Module.Win.Helper
                         MessageBox.Show($"Fehler beim Importieren des Wertes '{line}'");
                     }
                 }
+
+                mySqlDataReader.Close();
             }
             catch (Exception e)
             {
@@ -135,7 +159,7 @@ namespace PV_Monitor.Module.Win.Helper
             }
             finally
             {
-                mySqlConnection.Close();
+                mySqlDataReader?.Close();
             }
 
             if (millisek == 0) //Fehler

@@ -45,7 +45,7 @@ namespace PV_Monitor.Module.Win.Controllers
 
 
             SA_testeAsync = new SimpleAction(this, nameof(SA_testeAsync), PredefinedCategory.Edit);
-            SA_testeAsync.Caption = "Teste Import V2";
+            SA_testeAsync.Caption = "Teste Splashscreen";
             SA_testeAsync.TargetObjectType = typeof(PV_Modul);
             SA_testeAsync.Execute += SA_testeAsync_Execute;
 
@@ -59,6 +59,8 @@ namespace PV_Monitor.Module.Win.Controllers
             //SA_ZeigeWaitingform.Caption = "Zeige Waitingform";
             //SA_ZeigeWaitingform.Execute += SA_ZeigeWaitingform_Execute;
         }
+
+
 
         private void SA_ErstelleTestMesswerte_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
@@ -81,9 +83,19 @@ namespace PV_Monitor.Module.Win.Controllers
             View.Refresh(true);
         }
 
+        int counter = 0;
+        System.Timers.Timer _timer;
+
         private void SA_testeAsync_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            Autoimport_helper.StarteAutoimportV2_multiT();
+            //Autoimport_helper.StarteAutoimportV2_multiT();
+            _timer = new System.Timers.Timer();
+            _timer.Elapsed += Timer_Elapsed;
+            _timer.Interval = 1500;
+            _timer.Enabled = true;
+            SplashScreen_helper.Zeige_Splashscreen("Importiere Messwerte", "");
+            SplashScreen_helper.Update_Splashscreen_description("Importiere Jahreswerte...");
+            counter = 0;
         }
 
         //private void SA_ZeigeWaitingform_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -103,11 +115,36 @@ namespace PV_Monitor.Module.Win.Controllers
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (SplashScreenManager.Default != null && SplashScreenManager.Default.IsSplashFormVisible)
+            if (counter == 1)
             {
-                SplashScreenManager.Default.SetWaitFormCaption($"Test {e.SignalTime}");
+                SplashScreen_helper.Update_Splashscreen_description("Importiere Monatswerte...");
             }
-                //SplashScreenManager.CloseDefaultWaitForm();
+            else if (counter == 3)
+            {
+                SplashScreen_helper.Update_Splashscreen_description("Importiere Wochenwerte...");
+            }
+            else if (counter == 6)
+            {
+                SplashScreen_helper.Update_Splashscreen_description("Importiere Tageswerte...");
+            }
+            else if (counter == 10)
+            {
+                SplashScreen_helper.Update_Splashscreen_description("Importiere Stundenwerte...");
+            }
+            else if (counter == 15)
+            {
+                _timer.Stop();
+                _timer.Elapsed -= Timer_Elapsed;
+                _timer.Dispose();
+                SplashScreen_helper.Update_Splashscreen_description("Importiere Viertelstundenwerte...");
+                SplashScreen_helper.Close_Splashscreen();
+                return;
+            }
+
+            counter++;
+
+
+
         }
 
         private void SA_setzteLetztesImportDatumZurueck_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -125,11 +162,14 @@ namespace PV_Monitor.Module.Win.Controllers
                 modul.DatumInbetriebnahme = DateTime.MinValue;
             }
 
+
             IList<Messwert> messwertliste = ObjectSpace.GetObjects<Messwert>();
-            for (int i = messwertliste.Count - 1; i >= 0 ; i--)
-            {
-                messwertliste[i].Delete();
-            }
+            ObjectSpace.Delete(messwertliste);
+
+            //for (int i = messwertliste.Count - 1; i >= 0 ; i--)
+            //{
+            //    messwertliste[i].Delete();
+            //}
 
             ObjectSpace.CommitChanges();
             View.Refresh(true);

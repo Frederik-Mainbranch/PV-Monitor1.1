@@ -11,6 +11,8 @@ using PV_Monitor.Module.Helper;
 using System.Windows.Forms;
 using System.Configuration;
 using PV_Monitor.Module.BusinessObjects;
+using PV_Monitor.Module.Win.Controllers;
+using PV_Monitor.Module.Win.Waitforms;
 
 namespace PV_Monitor.Module.Win.Helper
 {
@@ -25,6 +27,9 @@ namespace PV_Monitor.Module.Win.Helper
         public static string Path_appData { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PV Monitor");
         public static string path_logDatei { get; set; }
         public static string path_datenbank { get; set; }
+        public static VC_PV_Monitor _Controller { get; set; }
+        public static DemoWaitForm2 _WaitingForm { get; set; }
+
 
         public static void Schreibe_sqlLiteConnectionstring()
         {

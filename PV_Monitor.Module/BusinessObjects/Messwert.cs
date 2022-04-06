@@ -120,12 +120,12 @@ namespace PV_Monitor.Module.BusinessObjects
         }
 
 
-        private int _AnzahlMesswerteX;
+        private long _AnzahlMesswerteX;
         [XafDisplayName("Anzahl Messwerte")]
-        public int AnzahlMesswerteX
+        public long AnzahlMesswerteX
         {
             get { return _AnzahlMesswerteX; }
-            set { SetPropertyValue<int>(nameof(AnzahlMesswerteX), ref _AnzahlMesswerteX, value); }
+            set { SetPropertyValue<long>(nameof(AnzahlMesswerteX), ref _AnzahlMesswerteX, value); }
         }
 
 
